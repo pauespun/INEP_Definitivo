@@ -4,6 +4,7 @@
 #include <locale>
 #include "CapaDePresentacio.hxx"
 using namespace std;
+////////////////////////////////////////////////////////////////////////////
 void menu_principal()
 {
 	int opcio;
