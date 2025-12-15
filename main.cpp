@@ -12,7 +12,8 @@ void menu_principal()
 	{
 		cout << "\n===== MENU PRINCIPAL =====\n";
 		cout << "1. Gestio d'usuaris\n";
-		//Poden anar més menús		cout << "0. Sortir\n";
+		//Poden anar més menús
+		cout << "0. Sortir\n";
 		cout << "Opcio: ";
 		cin >> opcio;
 		switch (opcio)
@@ -57,4 +58,4 @@ int main()
 	std::locale::global(std::locale("es_ES.UTF-8"));
 	menu_principal();
 	return 0;
-}
+}
