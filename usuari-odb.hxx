@@ -99,7 +99,7 @@ namespace odb
   template <typename A>
   struct query_columns< ::usuari, id_mysql, A >
   {
-    // username
+    // sobrenom
     //
     typedef
     mysql::query_column<
@@ -107,11 +107,11 @@ namespace odb
         ::std::string,
         mysql::id_string >::query_type,
       mysql::id_string >
-    username_type_;
+    sobrenom_type_;
 
-    static const username_type_ username;
+    static const sobrenom_type_ sobrenom;
 
-    // nomcomplet
+    // nom
     //
     typedef
     mysql::query_column<
@@ -119,9 +119,33 @@ namespace odb
         ::std::string,
         mysql::id_string >::query_type,
       mysql::id_string >
-    nomcomplet_type_;
+    nom_type_;
 
-    static const nomcomplet_type_ nomcomplet;
+    static const nom_type_ nom;
+
+    // correuElectronic
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        ::std::string,
+        mysql::id_string >::query_type,
+      mysql::id_string >
+    correuElectronic_type_;
+
+    static const correuElectronic_type_ correuElectronic;
+
+    // contrasenya
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        ::std::string,
+        mysql::id_string >::query_type,
+      mysql::id_string >
+    contrasenya_type_;
+
+    static const contrasenya_type_ contrasenya;
 
     // edat
     //
@@ -137,14 +161,24 @@ namespace odb
   };
 
   template <typename A>
-  const typename query_columns< ::usuari, id_mysql, A >::username_type_
+  const typename query_columns< ::usuari, id_mysql, A >::sobrenom_type_
   query_columns< ::usuari, id_mysql, A >::
-  username (A::table_name, "`username`", 0);
+  sobrenom (A::table_name, "`sobrenom`", 0);
 
   template <typename A>
-  const typename query_columns< ::usuari, id_mysql, A >::nomcomplet_type_
+  const typename query_columns< ::usuari, id_mysql, A >::nom_type_
   query_columns< ::usuari, id_mysql, A >::
-  nomcomplet (A::table_name, "`nomcomplet`", 0);
+  nom (A::table_name, "`nom`", 0);
+
+  template <typename A>
+  const typename query_columns< ::usuari, id_mysql, A >::correuElectronic_type_
+  query_columns< ::usuari, id_mysql, A >::
+  correuElectronic (A::table_name, "`correuElectronic`", 0);
+
+  template <typename A>
+  const typename query_columns< ::usuari, id_mysql, A >::contrasenya_type_
+  query_columns< ::usuari, id_mysql, A >::
+  contrasenya (A::table_name, "`contrasenya`", 0);
 
   template <typename A>
   const typename query_columns< ::usuari, id_mysql, A >::edat_type_
@@ -173,17 +207,29 @@ namespace odb
 
     struct image_type
     {
-      // _username
+      // _sobrenom
       //
-      details::buffer _username_value;
-      unsigned long _username_size;
-      my_bool _username_null;
+      details::buffer _sobrenom_value;
+      unsigned long _sobrenom_size;
+      my_bool _sobrenom_null;
 
-      // _nomcomplet
+      // _nom
       //
-      details::buffer _nomcomplet_value;
-      unsigned long _nomcomplet_size;
-      my_bool _nomcomplet_null;
+      details::buffer _nom_value;
+      unsigned long _nom_size;
+      my_bool _nom_null;
+
+      // _correuElectronic
+      //
+      details::buffer _correuElectronic_value;
+      unsigned long _correuElectronic_size;
+      my_bool _correuElectronic_null;
+
+      // _contrasenya
+      //
+      details::buffer _contrasenya_value;
+      unsigned long _contrasenya_size;
+      my_bool _contrasenya_null;
 
       // _edat
       //
@@ -229,7 +275,7 @@ namespace odb
 
     typedef mysql::query_base query_base_type;
 
-    static const std::size_t column_count = 3UL;
+    static const std::size_t column_count = 5UL;
     static const std::size_t id_column_count = 1UL;
     static const std::size_t inverse_column_count = 0UL;
     static const std::size_t readonly_column_count = 0UL;

@@ -41,7 +41,7 @@ map<string, string> connexioBD::carregar_env(const string& fitxer)
 // Implementació del patró singleton per la classe connexio
 connexioBD& connexioBD::getInstance()
 {
-	static connexio instance;
+	static connexioBD instance;
 	return instance;
 }// Constructor privat que llegeix les variables d'entorn i crea la connexió a la base de dades
 connexioBD::connexioBD()

@@ -24,7 +24,31 @@
     <ClCompile Include="usuari-odb.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="usuari-odb.ixx">
+    <ClCompile Include="connexioBD.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CapaDePresentacio.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CapaDeDomini.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="experiencia.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="escapada.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="activitat.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="reserva.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="DTOUsuari.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="DAOUsuari.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,8 +59,44 @@
     <ClInclude Include="usuari-odb.hxx">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="CapaDePresentacio.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="DTOUsuari.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="connexioBD.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="model.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="experiencia.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="escapada.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="activitat.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="reserva.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="DAOUsuari.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CapaDeDomini.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="usuari.sql" />
+    <None Include="configuracio.env">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="usuari-odb.ixx">
+      <Filter>Archivos de origen</Filter>
+    </None>
   </ItemGroup>
 </Project>

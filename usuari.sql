@@ -4,9 +4,27 @@
 
 DROP TABLE IF EXISTS `usuari`;
 
-CREATE TABLE `usuari` (
-  `username` VARCHAR(128) NOT NULL PRIMARY KEY,
-  `nomcomplet` TEXT NOT NULL,
-  `edat` INT NOT NULL)
+CREATE TABLE IF NOT EXISTS `schema_version` (
+  `name` VARCHAR(128) NOT NULL PRIMARY KEY,
+  `version` BIGINT UNSIGNED NOT NULL,
+  `migration` TINYINT(1) NOT NULL)
  ENGINE=InnoDB;
+
+DELETE FROM `schema_version`
+  WHERE `name` = '';
+
+CREATE TABLE `usuari` (
+  `sobrenom` VARCHAR(128) NOT NULL PRIMARY KEY,
+  `nom` TEXT NOT NULL,
+  `correuElectronic` VARCHAR(255) NOT NULL,
+  `contrasenya` TEXT NOT NULL,
+  `edat` INT NOT NULL CHECK(edat >= 18))
+ ENGINE=InnoDB;
+
+CREATE UNIQUE INDEX `correuElectronic_i`
+  ON `usuari` (`correuElectronic`);
+
+INSERT IGNORE INTO `schema_version` (
+  `name`, `version`, `migration`)
+  VALUES ('', 1, 0);
 

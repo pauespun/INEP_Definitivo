@@ -1,23 +1,24 @@
-// DAOUsuari.hxx
 #pragma once
-#include <memory>
 #include <vector>
+#include <memory>
 #include <string>
-#include <odb/core.hxx>
-#include <odb/mysql/database.hxx>
-#include "usuari-odb.hxx" // fitxer generat per ODB
-#include "usuari.hxx"
-#include "connexioBD.hxx"
+#include <odb/database.hxx>
+#include "usuari.hxx" // Tu clase del modelo
+#include "DTOUsuari.hxx" // Si necesitas devolver DTOs, si no, quítalo
+
 class DAOUsuari {
-public:
-	DAOUsuari();
-	// Operacions sobre usuari
-	bool existeix(const std::string& username);
-	usuari obte(const std::string& username);
-	std::vector<usuari> tots();
-	void inserta(const usuari& u);
-	void modifica(const usuari& u);
-	void esborra(const std::string& username);
 private:
-	std::shared_ptr<odb::mysql::database> db;
+    std::shared_ptr<odb::database> db; // Variable de la base de datos
+
+public:
+    DAOUsuari();
+
+    // Métodos
+    std::vector<usuari> tots();
+    bool existeix(const std::string& sobrenom);
+    bool existeixEmail(const std::string& email);
+    usuari obte(const std::string& sobrenom);
+    void inserta(const usuari& u);
+    void modifica(const usuari& u);
+    void esborra(const std::string& sobrenom);
 };

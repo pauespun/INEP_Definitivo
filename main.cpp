@@ -1,10 +1,14 @@
-//main.cpp
+// main.cpp
 #include <iostream>
 #include <string>
 #include <locale>
 #include "CapaDePresentacio.hxx"
+
 using namespace std;
-////////////////////////////////////////////////////////////////////////////
+
+// DECLARACIÓN ADELANTADA (Prototipos) para que el compilador las conozca
+void menu_usuari();
+
 void menu_principal()
 {
 	int opcio;
@@ -12,18 +16,24 @@ void menu_principal()
 	{
 		cout << "\n===== MENU PRINCIPAL =====\n";
 		cout << "1. Gestio d'usuaris\n";
-		//Poden anar més menús
 		cout << "0. Sortir\n";
 		cout << "Opcio: ";
 		cin >> opcio;
 		switch (opcio)
 		{
-		case 1: menu_usuari(); break;
-		case 0:cout << "Adeu!\n"; break;
-		default:cout << "Opcio no valida.\n"; break;
+		case 1:
+			menu_usuari(); // Ahora sí la reconoce porque la declaramos arriba
+			break;
+		case 0:
+			cout << "Adeu!\n";
+			break;
+		default:
+			cout << "Opcio no valida.\n";
+			break;
 		}
 	} while (opcio != 0);
 }
+
 void menu_usuari()
 {
 	int opcio;
@@ -52,9 +62,9 @@ void menu_usuari()
 		}
 	} while (opcio != 0);
 }
+
 int main()
 {
-	// Aquí ja NO hi ha cap connexió a la BD
 	std::locale::global(std::locale("es_ES.UTF-8"));
 	menu_principal();
 	return 0;

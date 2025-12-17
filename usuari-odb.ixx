@@ -14,7 +14,7 @@ namespace odb
   access::object_traits< ::usuari >::
   id (const object_type& o)
   {
-    return o._username;
+    return o._sobrenom;
   }
 
   inline
@@ -35,6 +35,8 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (e);
   }
 }
+
+#include <odb/schema-version.hxx>
 
 namespace odb
 {

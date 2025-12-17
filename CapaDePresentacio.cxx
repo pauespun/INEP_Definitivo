@@ -1,95 +1,125 @@
-//CapaDePresentacio.cxx
 #include "CapaDePresentacio.hxx"
 #include <iostream>
 #include <string>
-#include <boost/date_time/gregorian/gregorian.hpp>
+#include <limits> // Necessari per numeric_limits
+
+using namespace std;
+
 void CapaDePresentacio::crear_usuari()
 {
-	string user, nom;
-	int any, mes, dia;
-	cout << "Introdueix username: ";
-	cin >> user;
-	cout << "Introdueix nom complet: ";
-	cin.ignore();
-	getline(cin, nom);
-	cout << "Introdueix data de naixement (DD MM AAAA): ";
-	cin >> dia >> mes >> any;
-	date data_naixement(any, mes, dia);
-	CapaDeDomini& domini = CapaDeDomini::getInstance();
-	try {
-		domini.registrarUsuari(user, nom, data_naixement);
-		cout << "Usuari creat.\n";
-	}
-	catch (const exception& e) {
-		cout << "Error al crear l'usuari: " << e.what() << endl;
-	}
+    string sobrenom, nom, correu, contra;
+    int edat;
+
+    cout << "--- REGISTRE D'USUARI ---\n";
+    cout << "Sobrenom (ID): ";
+    cin >> sobrenom;
+
+    cout << "Nom complet: ";
+    cin.ignore();
+    getline(cin, nom);
+
+    cout << "Correu electronic: ";
+    cin >> correu;
+
+    cout << "Contrasenya: ";
+    cin >> contra;
+
+    cout << "Edat: ";
+    cin >> edat;
+
+    CapaDeDomini& domini = CapaDeDomini::getInstance();
+    try {
+        // Cridem al mètode actualitzat del domini
+        domini.registrarUsuari(sobrenom, nom, correu, contra, edat);
+        cout << "Usuari registrat correctament!\n";
+    }
+    catch (const exception& e) {
+        cout << "[ERROR] " << e.what() << endl;
+    }
 }
 
 void CapaDePresentacio::esborrar_usuari()
 {
-	string user;
-	cout << "Username de l'usuari a esborrar: ";
-	cin >> user;
-	CapaDeDomini& domini = CapaDeDomini::getInstance();
-	try {
-		domini.esborrarUsuari(user);
-		cout << "Usuari esborrat.\n";
-	}
-	catch (const exception& e) {
-		cout << "Error al esborrar l'usuari: " << e.what() << endl;
-	}
+    string sobrenom;
+    cout << "Sobrenom de l'usuari a esborrar: ";
+    cin >> sobrenom;
+
+    CapaDeDomini& domini = CapaDeDomini::getInstance();
+    try {
+        domini.esborrarUsuari(sobrenom);
+        cout << "Usuari esborrat correctament.\n";
+    }
+    catch (const exception& e) {
+        cout << "[ERROR] " << e.what() << endl;
+    }
 }
-//Exemple funcio per actualitzar un usuari opcionalment camp a camp
+
 void CapaDePresentacio::actualitzar_usuari() {
-	string user;
-	cout << "Username de l'usuari a modificar: ";
-	cin >> user;
-	CapaDeDomini& domini = CapaDeDomini::getInstance();
-	try {
-		//Recuperem les dades actuals de l’usuari des de la capa de domini
-		DTOUsuari dto = domini.consultarUsuari(user);
-		cout << "Dades actuals:\n";
-		cout << "Nom: " << dto.get_nomcomplet() << endl;
-		cout << "Data naixement: " << dto.get_data_naixement() << endl;
-		// Eliminem el salt de línia pendent després de llegir amb '>>'
-		// max() indica que es descarti tot el que quedi al buffer fins trobar un '\n'
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		string nou_nom;
-		cout << "\nNou nom complet (enter per mantenir): ";
-		getline(cin, nou_nom);
-		if (nou_nom.empty()) {
-			// Si no s’escriu res, mantenim el nom actual
-			nou_nom = dto.get_nomcomplet();
-		}
-		cout << "Nova data de naixement (DD MM AAAA) (enter per mantenir): ";
-		string linia_data;
-		getline(cin, linia_data);
-		// Per defecte, conservem la data existent
-		date nova_data = dto.get_data_naixement();
-		if (!linia_data.empty()) {
-			int dia, mes, any;
-			std::istringstream iss(linia_data);
-			if (iss >> dia >> mes >> any) {
-				nova_data = date(any, mes, dia);
-			}
-		}
-		domini.modificarUsuari(user, nou_nom, nova_data);
-	}
-	catch (const exception& e) {
-		cout << "Error al actualitzar l'usuari: " << e.what() << endl;
-	}
+    string sobrenom;
+    cout << "Sobrenom de l'usuari a modificar: ";
+    cin >> sobrenom;
+
+    CapaDeDomini& domini = CapaDeDomini::getInstance();
+    try {
+        // Recuperem dades actuals
+        DTOUsuari dto = domini.consultarUsuari(sobrenom);
+
+        cout << "--- Dades actuals ---\n";
+        cout << "Nom: " << dto.get_nom() << endl;
+        cout << "Correu: " << dto.get_correuElectronic() << endl;
+        cout << "Edat: " << dto.get_edat() << endl;
+
+        // Netejem buffer
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        string nou_nom, nou_correu;
+        int nova_edat = -1;
+
+        cout << "\nNou nom (enter per mantenir): ";
+        getline(cin, nou_nom);
+
+        cout << "Nou correu (enter per mantenir): ";
+        getline(cin, nou_correu);
+
+        cout << "Nova edat (-1 per mantenir): ";
+        string entrada_edat;
+        getline(cin, entrada_edat);
+        if (!entrada_edat.empty()) {
+            try {
+                nova_edat = stoi(entrada_edat);
+            }
+            catch (...) {}
+        }
+
+        // Cridem a modificar amb els nous paràmetres
+        domini.modificarUsuari(sobrenom, nou_nom, nou_correu, nova_edat);
+        cout << "Usuari actualitzat correctament.\n";
+    }
+    catch (const exception& e) {
+        cout << "[ERROR] " << e.what() << endl;
+    }
 }
 
 void CapaDePresentacio::llegir_usuari()
 {
-	string user;
-	cout << "Username de l'usuari a consultar: ";
-	cin >> user;
-	CapaDeDomini& domini = CapaDeDomini::getInstance();
-	// Ara la capa de domini retorna un DTOUsuari
-	DTOUsuari dto = domini.consultarUsuari(user);
-	cout << "Username: " << dto.get_username() << endl;
-	cout << "Nom: " << dto.get_nomcomplet() << endl;
-	cout << "Data naixement: " << dto.get_data_naixement() << endl;
+    string sobrenom;
+    cout << "Sobrenom de l'usuari a consultar: ";
+    cin >> sobrenom;
+
+    CapaDeDomini& domini = CapaDeDomini::getInstance();
+    try {
+        DTOUsuari dto = domini.consultarUsuari(sobrenom);
+        cout << "\n--- DETALL USUARI ---\n";
+        cout << "Sobrenom: " << dto.get_sobrenom() << endl;
+        cout << "Nom: " << dto.get_nom() << endl;
+        cout << "Correu: " << dto.get_correuElectronic() << endl;
+        cout << "Edat: " << dto.get_edat() << endl;
+    }
+    catch (const exception& e) {
+        cout << "[ERROR] " << e.what() << endl;
+    }
 }
 
+void CapaDePresentacio::llegir_usuaris() {
+    cout << "[AVIS] Funcionalitat de llistar tots els usuaris pendent d'implementar al DAO.\n";
+}

@@ -1,0 +1,17 @@
+<changelog xmlns="http://www.codesynthesis.com/xmlns/odb/changelog" database="mysql" version="1">
+  <model version="1">
+    <table name="usuari" options="ENGINE=InnoDB" kind="object">
+      <column name="sobrenom" type="VARCHAR(128)" null="false"/>
+      <column name="nom" type="TEXT" null="false"/>
+      <column name="correuElectronic" type="VARCHAR(255)" null="false"/>
+      <column name="contrasenya" type="TEXT" null="false"/>
+      <column name="edat" type="INT" null="false" options="CHECK(edat >= 18)"/>
+      <primary-key>
+        <column name="sobrenom"/>
+      </primary-key>
+      <index name="correuElectronic_i" type="UNIQUE">
+        <column name="correuElectronic"/>
+      </index>
+    </table>
+  </model>
+</changelog>
