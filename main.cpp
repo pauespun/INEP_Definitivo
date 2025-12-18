@@ -1,4 +1,3 @@
-// main.cpp
 #include <iostream>
 #include <string>
 #include <locale>
@@ -6,66 +5,108 @@
 
 using namespace std;
 
-// DECLARACIÓN ADELANTADA (Prototipos) para que el compilador las conozca
-void menu_usuari();
-
-void menu_principal()
-{
-	int opcio;
-	do
-	{
-		cout << "\n===== MENU PRINCIPAL =====\n";
-		cout << "1. Gestio d'usuaris\n";
-		cout << "0. Sortir\n";
-		cout << "Opcio: ";
-		cin >> opcio;
-		switch (opcio)
-		{
-		case 1:
-			menu_usuari(); // Ahora sí la reconoce porque la declaramos arriba
-			break;
-		case 0:
-			cout << "Adeu!\n";
-			break;
-		default:
-			cout << "Opcio no valida.\n";
-			break;
-		}
-	} while (opcio != 0);
-}
-
-void menu_usuari()
-{
-	int opcio;
-	do
-	{
-		cout << "\n===== MENU USUARIS =====\n";
-		cout << "1. Crear usuari\n";
-		cout << "2. Llistar tots els usuaris\n";
-		cout << "3. Consultar un usuari\n";
-		cout << "4. Actualitzar usuari\n";
-		cout << "5. Esborrar usuari\n";
-		cout << "0. Tornar al menu principal\n";
-		cout << "Opcio: ";
-		cin >> opcio;
-		// Obtenim la façana de presentació (Singleton)
-		CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
-		switch (opcio)
-		{
-		case 1: presentacio.crear_usuari(); break;
-		case 2: presentacio.llegir_usuaris(); break;
-		case 3: presentacio.llegir_usuari(); break;
-		case 4: presentacio.actualitzar_usuari(); break;
-		case 5: presentacio.esborrar_usuari(); break;
-		case 0: cout << "Tornant al menu principal...\n"; break;
-		default: cout << "Opcio no valida.\n"; break;
-		}
-	} while (opcio != 0);
-}
+// Prototips
+void menu_inici();      // Menú quan NO estem loguejats
+void menu_principal();  // Menú quan JA estem loguejats (dins l'app)
 
 int main()
 {
-	std::locale::global(std::locale("es_ES.UTF-8"));
-	menu_principal();
-	return 0;
+    // Configurem l'idioma per acceptar accents i caràcters especials
+    std::locale::global(std::locale("es_ES.UTF-8"));
+
+    // L'aplicació comença al menú d'inici (Login/Registre)
+    menu_inici();
+
+    return 0;
+}
+
+// -------------------------------------------------------------------
+// MENÚ INICIAL (Abans d'entrar al sistema)
+// Casos d'ús: 3.1.1 Iniciar Sessió, 3.1.3 Registrar Usuari
+// -------------------------------------------------------------------
+void menu_inici()
+{
+    int opcio;
+    bool sortir = false;
+    CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
+
+    do {
+        cout << "\n===== PLANGO: MENU INICI =====\n";
+        cout << "1. Iniciar Sessio\n";
+        cout << "2. Registrar Usuari\n";
+        cout << "0. Sortir de l'aplicacio\n";
+        cout << "Opcio: ";
+        cin >> opcio;
+
+        switch (opcio)
+        {
+        case 1:
+            // Intentem iniciar sessió. Si va bé, passem al menú principal.
+            if (presentacio.iniciarSessio()) {
+                menu_principal();
+            }
+            break;
+        case 2:
+            presentacio.registrarUsuari();
+            break;
+        case 0:
+            cout << "Adeu!\n";
+            sortir = true;
+            break;
+        default:
+            cout << "Opcio no valida.\n";
+            break;
+        }
+    } while (!sortir);
+}
+
+// -------------------------------------------------------------------
+// MENÚ PRINCIPAL (Dins del sistema)
+// Casos d'ús: Gestió d'usuaris, Reserves, etc.
+// -------------------------------------------------------------------
+void menu_principal()
+{
+    int opcio;
+    bool tancar_sessio = false;
+    CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
+
+    do {
+        cout << "\n===== PLANGO: MENU PRINCIPAL =====\n";
+        cout << "1. Consultar el meu usuari\n";
+        cout << "2. Modificar el meu usuari\n";
+        cout << "3. Esborrar el meu usuari\n";
+        cout << "----------------------------\n";
+        cout << "4. Gestio de Reserves (Proximament)\n";
+        cout << "----------------------------\n";
+        cout << "0. Tancar Sessio\n";
+        cout << "Opcio: ";
+        cin >> opcio;
+
+        switch (opcio)
+        {
+        case 1:
+            presentacio.consultarUsuari();
+            break;
+        case 2:
+            presentacio.modificarUsuari();
+            break;
+        case 3:
+            // Si l'usuari s'esborra, hem de tancar sessió automàticament
+            if (presentacio.esborrarUsuari()) {
+                tancar_sessio = true;
+            }
+            break;
+        case 4:
+            cout << "Funcionalitat en construccio...\n";
+            break;
+        case 0:
+            presentacio.tancarSessio();
+            cout << "Tancant sessio...\n";
+            tancar_sessio = true; // Això ens farà tornar al menu_inici()
+            break;
+        default:
+            cout << "Opcio no valida.\n";
+            break;
+        }
+    } while (!tancar_sessio);
 }

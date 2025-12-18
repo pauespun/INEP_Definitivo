@@ -1,31 +1,23 @@
-// Archivo: DTOUsuari.cxx
 #include "DTOUsuari.hxx"
 
-// Constructor
-DTOUsuari::DTOUsuari(std::string sobrenom, std::string nom, std::string correuElectronic, int edat)
-    : _sobrenom(sobrenom), _nom(nom), _correuElectronic(correuElectronic), _edat(edat)
+// Constructor para CONSULTAR (Sin contraseña, con reservas)
+DTOUsuari::DTOUsuari(std::string sobrenom, std::string nom, std::string correu, int edat, int totalReserves)
+    : _sobrenom(sobrenom), _nom(nom), _correuElectronic(correu), _edat(edat), _totalReserves(totalReserves)
 {
+    _contrasenya = ""; // No devolvemos la contraseña al consultar
 }
 
-// Constructor auxiliar desde un objeto de dominio
-DTOUsuari::DTOUsuari(const usuari& u)
-	: _sobrenom(u.get_sobrenom()), _nom(u.get_nom()), _correuElectronic(u.get_correuElectronic()), _edat(u.get_edat())
+// Constructor para REGISTRAR (Con contraseña, reservas a 0)
+DTOUsuari::DTOUsuari(std::string sobrenom, std::string nom, std::string correu, std::string contra, int edat)
+    : _sobrenom(sobrenom), _nom(nom), _correuElectronic(correu), _contrasenya(contra), _edat(edat)
 {
+    _totalReserves = 0;
 }
 
-// Getters (solo si no los definiste ya dentro del .hxx)
-std::string DTOUsuari::get_sobrenom() const {
-    return _sobrenom;
-}
-
-std::string DTOUsuari::get_nom() const {
-    return _nom;
-}
-
-std::string DTOUsuari::get_correuElectronic() const {
-    return _correuElectronic;
-}
-
-int DTOUsuari::get_edat() const {
-    return _edat;
-}
+// Getters
+std::string DTOUsuari::get_sobrenom() const { return _sobrenom; }
+std::string DTOUsuari::get_nom() const { return _nom; }
+std::string DTOUsuari::get_correuElectronic() const { return _correuElectronic; }
+std::string DTOUsuari::get_contrasenya() const { return _contrasenya; }
+int DTOUsuari::get_edat() const { return _edat; }
+int DTOUsuari::get_totalReserves() const { return _totalReserves; }

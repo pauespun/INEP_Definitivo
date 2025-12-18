@@ -51,6 +51,21 @@
     <ClCompile Include="DAOUsuari.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="PlanGo.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlIniciSessio.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlRegistraUsuari.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlTancaSessio.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlConsultaUsuari.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="usuari.hxx">
@@ -87,6 +102,21 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="CapaDeDomini.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanGo.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlIniciSessio.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlRegistraUsuari.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlTancaSessio.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlConsultaUsuari.hxx">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

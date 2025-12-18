@@ -1,28 +1,38 @@
 #pragma once
-#include <iostream>
 #include <string>
-#include "CapaDeDomini.hxx" // Inclou DTOUsuari
+#include "DTOUsuari.hxx"
+// Inclou aquí la teva classe de Domini si cal, o fes forward declaration
+// #include "CapaDeDomini.hxx"
 
-class CapaDePresentacio
-{
+class CapaDePresentacio {
 public:
-    // Patró Singleton
-    static CapaDePresentacio& getInstance() {
-        static CapaDePresentacio instance;
-        return instance;
-    }
+    // Singleton
+    static CapaDePresentacio& getInstance();
 
-    // Operacions de presentació
-    void crear_usuari();
-    void llegir_usuaris();
-    void llegir_usuari();
-    void actualitzar_usuari();
-    void esborrar_usuari();
+    // --- GESTIÓ SESSIÓ I USUARIS ---
+
+    // Retorna true si el login és correcte
+    bool iniciarSessio();
+
+    // Registra un nou usuari
+    void registrarUsuari();
+
+    // Tanca la sessió (neteja variables)
+    void tancarSessio();
+
+    // Operacions sobre l'usuari loguejat
+    void consultarUsuari();
+    void modificarUsuari();
+
+    // Retorna true si s'ha esborrat correctament (per saber si hem de fer logout)
+    bool esborrarUsuari();
+
+    // Mètodes antics (llegir_usuaris, etc.) els pots mantenir si vols per debug,
+    // però en l'aplicació final no se solen mostrar tots els usuaris.
 
 private:
-    CapaDePresentacio() = default;
+    CapaDePresentacio(); // Constructor privat
 
-    // Evitar còpia
-    CapaDePresentacio(const CapaDePresentacio&) = delete;
-    CapaDePresentacio& operator=(const CapaDePresentacio&) = delete;
+    // Aquí guardarem, per exemple, el "sobrenom" de l'usuari que ha iniciat sessió
+    std::string usuariLoguejat;
 };

@@ -2,7 +2,8 @@
 #pragma once
 #include <odb/core.hxx>
 #include <string>
-#include "model.hxx" // Importante incluir el modelo
+#include "model.hxx"
+#include "DTOUsuari.hxx"
 
 
 #pragma db object
@@ -25,21 +26,24 @@ public:
     void set_contrasenya(std::string contra);
     void set_edat(int edat);
 
+    // --- NUEVO MÉTODO SEGÚN DIAGRAMA [cite: 154] ---
+    // Retorna true si coincide, false si no.
+    bool comprovaContrasenya(const std::string& contra) const;
+
+    DTOUsuari obtéInfo() const;
+
 private:
     friend class odb::access;
-
 #pragma db id
-    std::string _sobrenom; // ID según diseño
-
+    std::string _sobrenom;
     std::string _nom;
-
-    // RIT2: El correo debe ser único. ODB requiere definir el tamaño para índices únicos en MySQL/MariaDB
 #pragma db type("VARCHAR(255)") unique
     std::string _correuElectronic;
-
     std::string _contrasenya;
-
-    // RIT1: Edad >= 18
 #pragma db options("CHECK(edat >= 18)")
     int _edat;
+
+    // CUANDO TENGAS RESERVAS, ESTO SERÁ ASÍ:
+    // #pragma db value_not_null inverse(usuari_)
+    // std::vector<std::shared_ptr<reserva>> _reserves;
 };
