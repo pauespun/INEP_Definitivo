@@ -27,3 +27,15 @@ DTOUsuari usuari::obtéInfo() const {
     // 2. Creamos y devolvemos el DTO usando el constructor de Consulta
     return DTOUsuari(_sobrenom, _nom, _correuElectronic, _edat, total);
 }
+
+void usuari::set_nom(std::string nom) {
+    this->_nom = nom;
+}
+
+void usuari::set_correuElectronic(std::string correu) {
+    this->_correuElectronic = correu;
+}
+
+void usuari::set_edat(int edat) {
+    this->_edat = edat;
+}

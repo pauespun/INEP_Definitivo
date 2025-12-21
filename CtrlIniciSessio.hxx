@@ -1,10 +1,7 @@
 #pragma once
 #include <string>
 #include "DAOUsuari.hxx"
-
-// EXCEPCIONES SIMPLIFICADAS (structs vacíos)
-struct UsuariNoExisteix {};
-struct ErrorContrasenya {};
+#include "Excepcions.hxx"
 
 class CtrlIniciSessio {
 public:

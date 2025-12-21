@@ -66,6 +66,12 @@
     <ClCompile Include="CtrlConsultaUsuari.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="CtrlModificaUsuari.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlEsborrarUsuari.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="usuari.hxx">
@@ -117,6 +123,15 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="CtrlConsultaUsuari.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlModificaUsuari.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlEsborrarUsuari.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Excepcions.hxx">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

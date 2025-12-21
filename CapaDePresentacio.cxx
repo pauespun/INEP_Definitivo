@@ -3,6 +3,8 @@
 #include "CtrlRegistraUsuari.hxx"
 #include "CtrlTancaSessio.hxx"
 #include "CtrlConsultaUsuari.hxx"
+#include "CtrlModificaUsuari.hxx"
+#include "CtrlEsborrarUsuari.hxx"
 #include "PlanGo.hxx" 
 #include <iostream>
 // No hace falta incluir DAOUsuari.hxx aquí, la presentación habla con los Controladores.
@@ -35,6 +37,8 @@ bool CapaDePresentacio::iniciarSessio() {
     try {
         // Llamamos a la lógica
         ctrl.iniciSessio(sobrenom, contrasenya);
+		// Guardamos el sobrenom localmente
+		usuariLoguejat = sobrenom;
 
         // Si no ha saltado error, es que ha ido bien [cite: 128]
         cout << "Sessio iniciada correctament!" << endl;
@@ -146,5 +150,127 @@ void CapaDePresentacio::consultarUsuari() {
     std::cin.ignore();
     std::cin.get();
 }
-void CapaDePresentacio::modificarUsuari() { cout << "En construccio...\n"; }
-bool CapaDePresentacio::esborrarUsuari() { cout << "En construccio...\n"; return false; }
+void CapaDePresentacio::modificarUsuari() {
+    using namespace std;
+    cout << "** Modificar usuari **" << endl;
+
+    CtrlModificaUsuari ctrl;
+
+    // 1. MOSTRAR INFORMACIÓN ACTUAL (Escenario principal)
+    try {
+        // Llamamos a consultaUsuari del propio controlador de modificación
+        DTOUsuari infoActual = ctrl.consultaUsuari();
+
+        cout << "--- Dades actuals ---" << endl;
+        cout << "Nom: " << infoActual.get_nom() << endl;
+        cout << "Correu: " << infoActual.get_correuElectronic() << endl;
+        cout << "Edat: " << infoActual.get_edat() << endl;
+        cout << "---------------------" << endl;
+    }
+    catch (std::exception& e) {
+        cout << "Error al recuperar dades: " << e.what() << endl;
+        return; // Si no podemos leer, salimos
+    }
+
+    // 2. PEDIR DATOS NUEVOS
+    cout << "(Deixa en blanc per mantenir el valor actual)" << endl;
+
+    string nom, correu, edatStr;
+    int edat = -1;
+
+    cin.ignore(); // Limpiar buffer
+
+    cout << "Nom complet: ";
+    getline(cin, nom);
+
+    cout << "Correu electronic: ";
+    getline(cin, correu);
+
+    cout << "Edat: ";
+    getline(cin, edatStr);
+
+    if (!edatStr.empty()) {
+        try {
+            edat = stoi(edatStr);
+        }
+        catch (...) {
+            cout << "Format incorrecte. No es modificara l'edat." << endl;
+            edat = -1;
+        }
+    }
+
+    // 3. MODIFICAR Y MOSTRAR RESULTADO CONFIRMADO
+    try {
+        // El controlador nos devuelve la info leída directamente de la BD post-cambio
+        DTOUsuari infoModificada = ctrl.modificaUsuari(nom, correu, edat);
+
+        cout << "Usuari modificat correctament!" << endl;
+        cout << "--- Dades actualitzades (Base de Dades) ---" << endl;
+        cout << "Nom: " << infoModificada.get_nom() << endl;
+        cout << "Correu: " << infoModificada.get_correuElectronic() << endl;
+        cout << "Edat: " << infoModificada.get_edat() << endl;
+    }
+    catch (CorreuExisteix) {
+        cout << "Error: El correu electronic ja existeix." << endl;
+    }
+    catch (MenorEdat) {
+        cout << "Error: No es poden registrar usuaris menors." << endl;
+    }
+    catch (std::exception& e) {
+        cout << "Error tècnic: " << e.what() << endl;
+    }
+
+    cout << "\nPrem Intro per continuar...";
+    cin.get();
+}
+
+bool CapaDePresentacio::esborrarUsuari() {
+    using namespace std;
+    string contrasenya;
+    char confirmacio;
+
+    cout << "** Esborrar usuari **" << endl;
+
+    // 1. Pedir contraseña
+    cout << "Introdueix la teva contrasenya per confirmar: ";
+    cin >> contrasenya;
+
+    // 2. Pedir confirmación explícita
+    cout << "Estas segur que vols donar-te de baixa? (S/N): ";
+    cin >> confirmacio;
+
+    if (confirmacio == 'S' || confirmacio == 's') {
+        try {
+            CtrlEsborrarUsuari ctrl;
+
+            // 3. Llamar al controlador con la contraseña
+            ctrl.esborrarUsuari(contrasenya);
+
+            // Si llegamos aquí, se ha borrado bien
+            // Limpiamos variable local
+			usuariLoguejat = "";
+            cout << "Usuari esborrat correctament. Fins aviat!" << endl;
+
+            cout << "\nPrem Intro per continuar...";
+            cin.ignore(); cin.get();
+
+            return true; // Indica al Main que debe salir al menú de inicio
+        }
+        catch (ErrorContrasenya) {
+            // Escenario alternativo: Contraseña incorrecta
+            cout << "Error: La contrasenya no es correcta. L'usuari no s'ha esborrat." << endl;
+        }
+        catch (std::exception& e) {
+            cout << "Error tècnic: " << e.what() << endl;
+        }
+    }
+    else {
+        // Escenario alternativo: Usuario no confirma
+        cout << "Operacio cancel.lada." << endl;
+    }
+
+    cout << "\nPrem Intro per continuar...";
+    cin.ignore(); cin.get();
+
+    return false; // No se ha borrado, nos quedamos en el menú principal
+}

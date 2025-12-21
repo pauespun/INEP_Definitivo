@@ -1,11 +1,7 @@
 #pragma once
 #include <string>
 #include "DAOUsuari.hxx"
-
-// EXCEPCIONES SIMPLIFICADAS
-struct SobrenomExisteix {};
-struct CorreuExisteix {};
-struct MenorEdat {};
+#include "Excepcions.hxx"
 
 class CtrlRegistraUsuari {
 public:
