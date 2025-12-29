@@ -1,4 +1,4 @@
-#include "CapaDePresentacio.hxx"
+ï»¿#include "CapaDePresentacio.hxx"
 #include "CtrlIniciSessio.hxx"
 #include "CtrlRegistraUsuari.hxx"
 #include "CtrlTancaSessio.hxx"
@@ -6,9 +6,11 @@
 #include "CtrlModificaUsuari.hxx"
 #include "CtrlEsborrarUsuari.hxx"
 #include "CtrlReservaEscapada.hxx"
+#include "CtrlReservaActivitat.hxx"
+
 #include "PlanGo.hxx" 
 #include <iostream>
-// No hace falta incluir DAOUsuari.hxx aquí, la presentación habla con los Controladores.
+// No hace falta incluir DAOUsuari.hxx aquÃ­, la presentaciÃ³n habla con los Controladores.
 
 using namespace std;
 
@@ -21,7 +23,7 @@ CapaDePresentacio& CapaDePresentacio::getInstance() {
 CapaDePresentacio::CapaDePresentacio() {}
 
 // =========================================================
-// 1. INICIAR SESSIÓ (Implementación del caso de uso 3.1.1)
+// 1. INICIAR SESSIÃ“ (ImplementaciÃ³n del caso de uso 3.1.1)
 // =========================================================
 bool CapaDePresentacio::iniciarSessio() {
     string sobrenom, contrasenya;
@@ -36,7 +38,7 @@ bool CapaDePresentacio::iniciarSessio() {
     CtrlIniciSessio ctrl;
 
     try {
-        // Llamamos a la lógica
+        // Llamamos a la lÃ³gica
         ctrl.iniciSessio(sobrenom, contrasenya);
 		// Guardamos el sobrenom localmente
 		usuariLoguejat = sobrenom;
@@ -44,10 +46,10 @@ bool CapaDePresentacio::iniciarSessio() {
         // Si no ha saltado error, es que ha ido bien [cite: 128]
         cout << "Sessio iniciada correctament!" << endl;
 
-        return true; // Retorna true para cambiar de menú en main.cpp
+        return true; // Retorna true para cambiar de menÃº en main.cpp
     }
     catch (UsuariNoExisteix) {
-        // Capturamos el struct vacío
+        // Capturamos el struct vacÃ­o
         cout << "Hi ha hagut un error amb el sobrenom o la contrasenya" << endl; // [cite: 159]
     }
     catch (ErrorContrasenya) {
@@ -61,7 +63,7 @@ bool CapaDePresentacio::iniciarSessio() {
 }
 
 // =========================================================
-// 2. REGISTRAR USUARI (Implementación del caso de uso 3.1.3)
+// 2. REGISTRAR USUARI (ImplementaciÃ³n del caso de uso 3.1.3)
 // =========================================================
 void CapaDePresentacio::registrarUsuari() {
     string nom, sobrenom, contrasenya, correu;
@@ -104,12 +106,12 @@ void CapaDePresentacio::registrarUsuari() {
         cout << "No es pot registar un menor" << endl; // [cite: 232]
     }
     catch (std::exception& e) {
-        cout << "Error tècnic: " << e.what() << endl;
+        cout << "Error tÃ¨cnic: " << e.what() << endl;
     }
 }
 
 // =========================================================
-// 3. TANCAR SESSIÓ (Implementación del caso de uso 3.1.2)
+// 3. TANCAR SESSIÃ“ (ImplementaciÃ³n del caso de uso 3.1.2)
 // =========================================================
 
 void CapaDePresentacio::tancarSessio() {
@@ -120,7 +122,7 @@ void CapaDePresentacio::tancarSessio() {
     cin >> opcio;
 
     if (opcio == 'S' || opcio == 's') {
-        // CORRECCIÓN: Instanciamos el controlador DIRECTAMENTE (sin CapaDeDomini)
+        // CORRECCIÃ“N: Instanciamos el controlador DIRECTAMENTE (sin CapaDeDomini)
         CtrlTancaSessio ctrl;
         ctrl.tancaSessio();
 
@@ -129,7 +131,7 @@ void CapaDePresentacio::tancarSessio() {
     // Escenari alternatiu: 'N', no fem res.
 }
 
-// Funciones pendientes (Stubs) para que compile el menú
+// Funciones pendientes (Stubs) para que compile el menÃº
 void CapaDePresentacio::consultarUsuari() {
     std::cout << "** Consulta usuari **" << std::endl;
 
@@ -157,9 +159,9 @@ void CapaDePresentacio::modificarUsuari() {
 
     CtrlModificaUsuari ctrl;
 
-    // 1. MOSTRAR INFORMACIÓN ACTUAL (Escenario principal)
+    // 1. MOSTRAR INFORMACIÃ“N ACTUAL (Escenario principal)
     try {
-        // Llamamos a consultaUsuari del propio controlador de modificación
+        // Llamamos a consultaUsuari del propio controlador de modificaciÃ³n
         DTOUsuari infoActual = ctrl.consultaUsuari();
 
         cout << "--- Dades actuals ---" << endl;
@@ -202,7 +204,7 @@ void CapaDePresentacio::modificarUsuari() {
 
     // 3. MODIFICAR Y MOSTRAR RESULTADO CONFIRMADO
     try {
-        // El controlador nos devuelve la info leída directamente de la BD post-cambio
+        // El controlador nos devuelve la info leÃ­da directamente de la BD post-cambio
         DTOUsuari infoModificada = ctrl.modificaUsuari(nom, correu, edat);
 
         cout << "Usuari modificat correctament!" << endl;
@@ -218,7 +220,7 @@ void CapaDePresentacio::modificarUsuari() {
         cout << "Error: No es poden registrar usuaris menors." << endl;
     }
     catch (std::exception& e) {
-        cout << "Error tècnic: " << e.what() << endl;
+        cout << "Error tÃ¨cnic: " << e.what() << endl;
     }
 
     cout << "\nPrem Intro per continuar...";
@@ -232,11 +234,11 @@ bool CapaDePresentacio::esborrarUsuari() {
 
     cout << "** Esborrar usuari **" << endl;
 
-    // 1. Pedir contraseña
+    // 1. Pedir contraseÃ±a
     cout << "Introdueix la teva contrasenya per confirmar: ";
     cin >> contrasenya;
 
-    // 2. Pedir confirmación explícita
+    // 2. Pedir confirmaciÃ³n explÃ­cita
     cout << "Estas segur que vols donar-te de baixa? (S/N): ";
     cin >> confirmacio;
 
@@ -244,10 +246,10 @@ bool CapaDePresentacio::esborrarUsuari() {
         try {
             CtrlEsborrarUsuari ctrl;
 
-            // 3. Llamar al controlador con la contraseña
+            // 3. Llamar al controlador con la contraseÃ±a
             ctrl.esborrarUsuari(contrasenya);
 
-            // Si llegamos aquí, se ha borrado bien
+            // Si llegamos aquÃ­, se ha borrado bien
             // Limpiamos variable local
 			usuariLoguejat = "";
             cout << "Usuari esborrat correctament. Fins aviat!" << endl;
@@ -255,14 +257,14 @@ bool CapaDePresentacio::esborrarUsuari() {
             cout << "\nPrem Intro per continuar...";
             cin.ignore(); cin.get();
 
-            return true; // Indica al Main que debe salir al menú de inicio
+            return true; // Indica al Main que debe salir al menÃº de inicio
         }
         catch (ErrorContrasenya) {
-            // Escenario alternativo: Contraseña incorrecta
+            // Escenario alternativo: ContraseÃ±a incorrecta
             cout << "Error: La contrasenya no es correcta. L'usuari no s'ha esborrat." << endl;
         }
         catch (std::exception& e) {
-            cout << "Error tècnic: " << e.what() << endl;
+            cout << "Error tÃ¨cnic: " << e.what() << endl;
         }
     }
     else {
@@ -273,7 +275,7 @@ bool CapaDePresentacio::esborrarUsuari() {
     cout << "\nPrem Intro per continuar...";
     cin.ignore(); cin.get();
 
-    return false; // No se ha borrado, nos quedamos en el menú principal
+    return false; // No se ha borrado, nos quedamos en el menÃº principal
 }
 
 
@@ -285,8 +287,8 @@ void CapaDePresentacio::reservarEscapada() {
 
     cout << "** Reservar escapada **" << endl;
 
-    // Limpiamos buffer si venimos de un menú numérico
-    // cin.ignore(); // Descomenta si el menú anterior usaba cin >> int
+    // Limpiamos buffer si venimos de un menÃº numÃ©rico
+    // cin.ignore(); // Descomenta si el menÃº anterior usaba cin >> int
 
     // 1. Pedir datos
     cout << "Nom: ";
@@ -300,7 +302,7 @@ void CapaDePresentacio::reservarEscapada() {
         // 2. Llamada al Controlador: CONSULTA
         DTOExperiencia info = ctrl.consulta_escapada(nomEscapada);
 
-        // 3. Mostrar información
+        // 3. Mostrar informaciÃ³n
         cout << "Descripcio: " << info.get_descripcio() << endl;
         cout << "Ciutat: " << info.get_ciutat() << endl;
         cout << "Places: " << info.get_maxim_places() << endl;
@@ -308,7 +310,7 @@ void CapaDePresentacio::reservarEscapada() {
         cout << "Nits: " << info.get_num_nits() << endl;
         cout << "Preu: " << info.get_preu() << endl;
 
-        // 4. Confirmación
+        // 4. ConfirmaciÃ³n
         cout << "Vols continuar amb la reserva? (S/N): ";
         cin >> confirmacio;
 
@@ -334,3 +336,86 @@ void CapaDePresentacio::reservarEscapada() {
     cin.ignore();
     cin.get();
 }
+
+void CapaDePresentacio::reservarActivitat() {
+    using namespace std;
+    string nomActivitat;
+    int numPersones;
+    char confirmacio;
+
+    cout << "** Reservar activitat **" << endl;
+
+    cout << "Introdueix el nom de l'activitat a reservar: ";
+    if (cin.peek() == '\n') cin.ignore();
+    getline(cin, nomActivitat);
+
+    CtrlReservaActivitat ctrl;
+
+    try {
+        DTOExperiencia info = ctrl.consulta_activitat(nomActivitat);
+
+        cout << "Nom: " << info.get_nom() << endl;
+        cout << "Descripcio: " << info.get_descripcio() << endl;
+        cout << "Ciutat: " << info.get_ciutat() << endl;
+        cout << "Places: " << info.get_maxim_places() << endl;
+        cout << "Preu: " << info.get_preu() << endl;
+        cout << "Durada (minuts): " << info.get_durada() << endl;
+
+        float preuTotal = 0.0f;
+
+        // âœ… Pedir numPersones hasta que ctrl.preu_total lo acepte
+        while (true) {
+            cout << "Introdueix el nombre de persones que volen realitzar l'activitat: ";
+            cin >> numPersones;
+
+            if (numPersones < 1) {
+                cout << "Error: el nombre de persones ha de ser com a minim 1." << endl;
+                continue;
+            }
+
+            try {
+                preuTotal = ctrl.preu_total(numPersones); // âœ… aquÃ­ valida plazas reales
+                break; // ok
+            }
+            catch (SuperaMaxim) {
+                cout << "Error: No hi ha places suficients disponibles." << endl;
+                cout << "Vols introduir un altre nombre? (S/N): ";
+                cin >> confirmacio;
+
+                if (confirmacio == 'N' || confirmacio == 'n') {
+                    cout << "Operacio cancelÂ·lada." << endl;
+                    cout << "\nPrem Intro per continuar...";
+                    cin.ignore(); cin.get();
+                    return;
+                }
+            }
+        }
+
+        cout << "Preu total de la reserva: " << preuTotal << endl;
+
+        cout << "Vols continuar amb la reserva? (S/N): ";
+        cin >> confirmacio;
+
+        if (confirmacio == 'S' || confirmacio == 's') {
+            float preuPagat = ctrl.reserva_activitat(numPersones);
+            cout << "Reserva enregistrada correctament." << endl;
+            cout << "Preu aplicat a la reserva: " << preuPagat << endl;
+        }
+        else {
+            cout << "Operacio cancelÂ·lada." << endl;
+        }
+    }
+    catch (ActivitatNoExisteix) {
+        cout << "L'activitat no existeix." << endl;
+    }
+    catch (std::exception& e) {
+        cout << "Error inesperat: " << e.what() << endl;
+    }
+
+    cout << "\nPrem Intro per continuar...";
+    cin.ignore();
+    cin.get();
+}
+
+
+

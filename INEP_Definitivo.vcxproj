@@ -157,9 +157,12 @@
     <ClCompile Include="CtrlIniciSessio.cxx" />
     <ClCompile Include="CtrlModificaUsuari.cxx" />
     <ClCompile Include="CtrlRegistraUsuari.cxx" />
+    <ClCompile Include="CtrlReservaActivitat.cxx" />
     <ClCompile Include="CtrlReservaEscapada.cxx" />
     <ClCompile Include="CtrlTancaSessio.cxx" />
+    <ClCompile Include="DAOActivitat.cxx" />
     <ClCompile Include="DAOEscapada.cxx" />
+    <ClCompile Include="DAOReserva.cxx" />
     <ClCompile Include="DAOUsuari.cxx" />
     <ClCompile Include="DTOExperiencia.cxx" />
     <ClCompile Include="DTOUsuari.cxx" />
@@ -187,8 +190,10 @@
     <ClInclude Include="CtrlIniciSessio.hxx" />
     <ClInclude Include="CtrlModificaUsuari.hxx" />
     <ClInclude Include="CtrlRegistraUsuari.hxx" />
+    <ClInclude Include="CtrlReservaActivitat.hxx" />
     <ClInclude Include="CtrlReservaEscapada.hxx" />
     <ClInclude Include="CtrlTancaSessio.hxx" />
+    <ClInclude Include="DAOActivitat.hxx" />
     <ClInclude Include="DAOEscapada.hxx" />
     <ClInclude Include="DAOUsuari.hxx" />
     <ClInclude Include="DTOExperiencia.hxx" />
@@ -196,6 +201,7 @@
     <ClInclude Include="escapada.hxx" />
     <ClInclude Include="Excepcions.hxx" />
     <ClInclude Include="experiencia.hxx" />
+    <ClInclude Include="DAOReserva.hxx" />
     <ClInclude Include="model.hxx" />
     <ClInclude Include="PlanGo.hxx" />
     <ClInclude Include="reserva.hxx" />

@@ -27,8 +27,11 @@ public:
     void set_data_alta(const std::string& da);
     void set_num_reserves(int nr);
 
-    // Método abstracto
-    virtual float calculaPreu(int nPersones, bool primeraRes);
+    // 1) Polimórfico: depende del tipo (escapada/activitat)
+    virtual float calculaPreu(int nPersones) const = 0;
+
+    // 2) Concreto: aplica descuento si es primera reserva
+    float calculaPreu(int nPersones, bool primeraRes) const;
 
 protected:
     friend class odb::access;

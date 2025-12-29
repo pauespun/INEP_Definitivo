@@ -9,3 +9,6 @@ struct SobrenomExisteix {};
 struct CorreuExisteix {};
 struct MenorEdat {};
 struct EscapadaNoExisteix {};
+struct ActivitatNoExisteix {};
+struct ReservaNoExisteix {};
+struct SuperaMaxim {};

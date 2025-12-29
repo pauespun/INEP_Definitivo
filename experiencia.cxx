@@ -1,4 +1,4 @@
-#include "experiencia.hxx"
+ï»¿#include "experiencia.hxx"
 #include "PlanGo.hxx"
 
 experiencia::experiencia() {
@@ -8,7 +8,7 @@ experiencia::experiencia() {
 experiencia::~experiencia() {
 }
 
-// Implementación Getters
+// ImplementaciÃ³n Getters
 std::string experiencia::get_nom() const {
     return _nom;
 }
@@ -37,7 +37,7 @@ int experiencia::get_num_reserves() const {
     return _num_reserves;
 }
 
-// Implementación Setters
+// ImplementaciÃ³n Setters
 void experiencia::set_nom(const std::string& n) {
     _nom = n;
 }
@@ -66,18 +66,12 @@ void experiencia::set_num_reserves(int nr) {
     _num_reserves = nr;
 }
 
-
-
-float experiencia::calculaPreu(int nPersones, bool primeraRes) {
-    float preu_base = this->get_preu(); // En escapada el precio es por paquete, no por persona
-
-    // Si es actividad, aquí multiplicarías por nPersones.
-    // Como es la clase padre (o si es escapada), usamos el precio base.
+float experiencia::calculaPreu(int nPersones, bool primeraRes) const {
+    float preu = calculaPreu(nPersones); // polimÃ³rfico
 
     if (primeraRes) {
-        float descompte = PlanGo::getInstance().get_descompte();
-        return preu_base * (1.0f - descompte);
+        float d = PlanGo::getInstance().get_descompte(); // d = 0.2
+        preu = preu * (1.0f - d); // âœ… 0.8
     }
-
-    return preu_base;
+    return preu;
 }

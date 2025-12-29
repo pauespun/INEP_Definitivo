@@ -1,5 +1,6 @@
 #include "activitat.hxx"
 #include "PlanGo.hxx"
+#include <stdexcept>
 
 
 activitat::activitat() {}
@@ -28,13 +29,10 @@ void activitat::set_durada(int d) {
     _durada = d;
 }
 
-float activitat::calculaPreu(int nPersones, bool primeraRes) {
-    // Lógica: En actividad el precio es por persona
-    float preu_final = this->get_preu() * nPersones;
+float activitat::calculaPreu(int nPersones) const
+{
+    if (nPersones < 1)
+        throw std::invalid_argument("Error: nPersones ha de ser >= 1.");
 
-    if (primeraRes) {
-        float descompte = PlanGo::getInstance().get_descompte();
-        preu_final = preu_final * (1.0f - descompte);
-    }
-    return preu_final;
+    return _preu * nPersones;
 }

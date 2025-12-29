@@ -16,7 +16,7 @@ public:
     int get_durada() const;
     void set_durada(int d);
 
-    float calculaPreu(int nPersones, bool primeraRes) override;
+    float calculaPreu(int nPersones) const override;
 
 private:
     friend class odb::access;

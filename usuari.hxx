@@ -35,6 +35,10 @@ public:
     bool comprovaContrasenya(const std::string& contra) const;
 
     float afegirReserva(std::shared_ptr<experiencia> e);
+    float afegirReserva(std::shared_ptr<experiencia> e, int numPersones);
+
+    float calculaPreuReserva(std::shared_ptr<experiencia> e, int numPersones) const;
+
 
     std::vector<std::shared_ptr<reserva>>& get_reserves();
     void set_reserves(const std::vector<std::shared_ptr<reserva>>& r);

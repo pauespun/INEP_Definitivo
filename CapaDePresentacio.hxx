@@ -29,6 +29,7 @@ public:
     bool esborrarUsuari();
 
     void reservarEscapada();
+    void reservarActivitat();
 
     // Mètodes antics (llegir_usuaris, etc.) els pots mantenir si vols per debug,
     // però en l'aplicació final no se solen mostrar tots els usuaris.

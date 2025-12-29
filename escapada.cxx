@@ -41,16 +41,8 @@ void escapada::set_num_nits(int n) {
     _num_nits = n;
 }
 
-float escapada::calculaPreu(int nPersones, bool primeraRes) {
-    // Lógica: En escapada el precio suele ser fijo por el pack, 
-    // pero si quieres multiplicar por personas, hazlo aquí.
-    // Según tu diagrama, usamos el precio base.
-
-    float preu_final = this->get_preu();
-
-    if (primeraRes) {
-        float descompte = PlanGo::getInstance().get_descompte();
-        preu_final = preu_final * (1.0f - descompte);
-    }
-    return preu_final;
+float escapada::calculaPreu(int /*nPersones*/) const
+{
+    // según el diagrama: devuelve _preu (precio fijo)
+    return _preu;
 }

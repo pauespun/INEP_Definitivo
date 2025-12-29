@@ -167,7 +167,8 @@ void menu_gestio_reserves()
     do {
         cout << "\n--- GESTIO RESERVES ---\n";
         cout << "1. Reservar Escapada\n";
-        // cout << "2. Reservar Activitat\n"; // Descomentar cuando lo tengas
+        cout << "2. Reservar Activitat\n";   // ✅ AÑADIDO
+        cout << "3. Visualitzar reserves\n"; // (opcional, si aún no lo tienes, puedes quitarlo)
         cout << "0. Tornar al menu principal\n";
         cout << "Opcio: ";
         cin >> opcio;
@@ -176,6 +177,14 @@ void menu_gestio_reserves()
         {
         case 1:
             presentacio.reservarEscapada();
+            break;
+        case 2:
+            presentacio.reservarActivitat(); // ✅ AÑADIDO
+            break;
+        case 3:
+            // Si todavía no lo has implementado, deja esto comentado o quítalo
+            // presentacio.visualitzarReserves();
+            cout << "Funcionalitat encara no implementada.\n";
             break;
         case 0:
             tornar = true;

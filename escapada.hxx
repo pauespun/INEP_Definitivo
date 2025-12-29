@@ -20,8 +20,7 @@ public:
     void set_hotel(const std::string& h);
     void set_num_nits(int n);
 
-    // Implementación virtual
-    float calculaPreu(int nPersones, bool primeraRes) override;
+    float calculaPreu(int /*nPersones*/) const override;
 
 private:
     friend class odb::access;
