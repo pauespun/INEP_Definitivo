@@ -31,6 +31,6 @@ bool PlanGo::hiHaUsuariLoggejat() {
     return usuariLoggejat != nullptr;
 }
 
-float PlanGo::getDescompte() const {
+float PlanGo::get_descompte() const {
     return descompte;
 }

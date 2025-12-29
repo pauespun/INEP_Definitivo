@@ -25,5 +25,5 @@ public:
     // Getters y comprobaciones
     std::shared_ptr<usuari> getUsuariLoggejat();
     bool hiHaUsuariLoggejat();
-    float getDescompte() const;
+    float get_descompte() const;
 };

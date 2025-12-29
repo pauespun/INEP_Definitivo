@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="activitat-odb.cxx" />
     <ClCompile Include="activitat.cxx" />
     <ClCompile Include="CapaDeDomini.cxx" />
     <ClCompile Include="CapaDePresentacio.cxx" />
@@ -156,13 +157,19 @@
     <ClCompile Include="CtrlIniciSessio.cxx" />
     <ClCompile Include="CtrlModificaUsuari.cxx" />
     <ClCompile Include="CtrlRegistraUsuari.cxx" />
+    <ClCompile Include="CtrlReservaEscapada.cxx" />
     <ClCompile Include="CtrlTancaSessio.cxx" />
+    <ClCompile Include="DAOEscapada.cxx" />
     <ClCompile Include="DAOUsuari.cxx" />
+    <ClCompile Include="DTOExperiencia.cxx" />
     <ClCompile Include="DTOUsuari.cxx" />
+    <ClCompile Include="escapada-odb.cxx" />
     <ClCompile Include="escapada.cxx" />
+    <ClCompile Include="experiencia-odb.cxx" />
     <ClCompile Include="experiencia.cxx" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlanGo.cxx" />
+    <ClCompile Include="reserva-odb.cxx" />
     <ClCompile Include="reserva.cxx" />
     <ClCompile Include="usuari-odb.cxx" />
     <None Include="usuari-odb.ixx">
@@ -180,8 +187,11 @@
     <ClInclude Include="CtrlIniciSessio.hxx" />
     <ClInclude Include="CtrlModificaUsuari.hxx" />
     <ClInclude Include="CtrlRegistraUsuari.hxx" />
+    <ClInclude Include="CtrlReservaEscapada.hxx" />
     <ClInclude Include="CtrlTancaSessio.hxx" />
+    <ClInclude Include="DAOEscapada.hxx" />
     <ClInclude Include="DAOUsuari.hxx" />
+    <ClInclude Include="DTOExperiencia.hxx" />
     <ClInclude Include="DTOUsuari.hxx" />
     <ClInclude Include="escapada.hxx" />
     <ClInclude Include="Excepcions.hxx" />

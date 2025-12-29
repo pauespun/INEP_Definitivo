@@ -8,3 +8,4 @@ struct UsuariNoExisteix {};
 struct SobrenomExisteix {};
 struct CorreuExisteix {};
 struct MenorEdat {};
+struct EscapadaNoExisteix {};

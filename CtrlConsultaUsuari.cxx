@@ -11,5 +11,5 @@ DTOUsuari CtrlConsultaUsuari::consultaUsuari() {
     }
 
     // 2. Delegamos en el usuario la creación de su propia info
-    return usuari_ptr->obtéInfo();
+    return usuari_ptr->obteInfo();
 }

@@ -1,19 +1,36 @@
-#pragma once
+#ifndef ESCAPADA_HXX
+#define ESCAPADA_HXX
+
 #include "experiencia.hxx"
-#include <odb/core.hxx>
 
-#pragma db object
-class Escapada : public Experiencia {
+#pragma db object table("escapada")
+class escapada : public experiencia {
 public:
-    Escapada() = default;
-    Escapada(string nom, string desc, string ciutat, int maxP, float preu, date data, string hotel, int numNits);
+    escapada(const std::string& nom, const std::string& desc, const std::string& ciutat,
+        int max_places, float preu, const std::string& data,
+        const std::string& hotel, int nits);
 
-    string getTipus() const override { return "ESCAPADA"; }
-    string getHotel() const;
-    // ...
+    virtual ~escapada();
+
+    // Getters específicos
+    std::string get_hotel() const;
+    int get_num_nits() const;
+
+    // Setters específicos
+    void set_hotel(const std::string& h);
+    void set_num_nits(int n);
+
+    // Implementación virtual
+    float calculaPreu(int nPersones, bool primeraRes) override;
 
 private:
     friend class odb::access;
-    string _hotel;
-    int _numNits;
+    escapada();
+
+    std::string _hotel;
+
+#pragma db column("num_nits")
+    int _num_nits;
 };
+
+#endif

@@ -57,5 +57,5 @@ DTOUsuari CtrlModificaUsuari::modificaUsuari(const std::string& nom, const std::
     usuari u_mod = dao.obte(sobrenom);            // Paso 10: Recarga desde BD
 
     // E. Retornar DTO (Paso 11)
-    return u_mod.obtéInfo();
+    return u_mod.obteInfo();
 }

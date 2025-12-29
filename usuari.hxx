@@ -4,10 +4,14 @@
 #include <string>
 #include "model.hxx"
 #include "DTOUsuari.hxx"
+#include <vector>
+#include <memory>
+#include "experiencia.hxx"
+class reserva;
 
 
 #pragma db object
-class usuari
+class usuari : public std::enable_shared_from_this<usuari>
 {
 public:
     usuari() = default;
@@ -30,7 +34,12 @@ public:
     // Retorna true si coincide, false si no.
     bool comprovaContrasenya(const std::string& contra) const;
 
-    DTOUsuari obtéInfo() const;
+    float afegirReserva(std::shared_ptr<experiencia> e);
+
+    std::vector<std::shared_ptr<reserva>>& get_reserves();
+    void set_reserves(const std::vector<std::shared_ptr<reserva>>& r);
+
+    DTOUsuari obteInfo() const;
 
 private:
     friend class odb::access;
@@ -42,8 +51,7 @@ private:
     std::string _contrasenya;
 #pragma db options("CHECK(edat >= 18)")
     int _edat;
-
-    // CUANDO TENGAS RESERVAS, ESTO SERÁ ASÍ:
-    // #pragma db value_not_null inverse(usuari_)
-    // std::vector<std::shared_ptr<reserva>> _reserves;
+  
+#pragma db value_not_null inverse(_usuari)
+std::vector<std::shared_ptr<reserva>> _reserves;
 };

@@ -1,0 +1,27 @@
+<changelog xmlns="http://www.codesynthesis.com/xmlns/odb/changelog" database="mysql" version="1">
+  <model version="1">
+    <table name="reserva" options="ENGINE=InnoDB" kind="object">
+      <column name="id" type="INT UNSIGNED" null="false"/>
+      <column name="data" type="TEXT" null="false"/>
+      <column name="num_places" type="INT" null="false"/>
+      <column name="preu_pagat" type="FLOAT" null="false"/>
+      <column name="usuari" type="VARCHAR(128)" null="false"/>
+      <column name="experiencia" type="VARCHAR(128)" null="false"/>
+      <primary-key auto="true">
+        <column name="id"/>
+      </primary-key>
+      <foreign-key name="reserva_usuari_fk">
+        <column name="usuari"/>
+        <references table="usuari">
+          <column name="sobrenom"/>
+        </references>
+      </foreign-key>
+      <foreign-key name="reserva_experiencia_fk">
+        <column name="experiencia"/>
+        <references table="experiencia">
+          <column name="nom"/>
+        </references>
+      </foreign-key>
+    </table>
+  </model>
+</changelog>

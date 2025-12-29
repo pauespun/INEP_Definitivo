@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "DTOUsuari.hxx"
+#include "DTOExperiencia.hxx"
 // Inclou aquí la teva classe de Domini si cal, o fes forward declaration
 // #include "CapaDeDomini.hxx"
 
@@ -26,6 +27,8 @@ public:
 
     // Retorna true si s'ha esborrat correctament (per saber si hem de fer logout)
     bool esborrarUsuari();
+
+    void reservarEscapada();
 
     // Mètodes antics (llegir_usuaris, etc.) els pots mantenir si vols per debug,
     // però en l'aplicació final no se solen mostrar tots els usuaris.
