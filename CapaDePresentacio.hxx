@@ -30,6 +30,7 @@ public:
     void reservarActivitat();
 
     void consultarExperiencies();
+    void consultarNovetats();
     void visualitzarReserves();
 
 

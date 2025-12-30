@@ -163,6 +163,7 @@
     <ClCompile Include="CtrlTancaSessio.cxx" />
     <ClCompile Include="DAOActivitat.cxx" />
     <ClCompile Include="DAOEscapada.cxx" />
+    <ClCompile Include="DAOExperiencia.cxx" />
     <ClCompile Include="DAOReserva.cxx" />
     <ClCompile Include="DAOUsuari.cxx" />
     <ClCompile Include="DTOExperiencia.cxx" />
@@ -178,6 +179,7 @@
     <ClCompile Include="reserva-odb.cxx" />
     <ClCompile Include="reserva.cxx" />
     <ClCompile Include="usuari-odb.cxx" />
+    <ClCompile Include="CtrlConsultaNovetats.cxx" />
     <None Include="usuari-odb.ixx">
       <FileType>Document</FileType>
     </None>
@@ -199,6 +201,7 @@
     <ClInclude Include="CtrlTancaSessio.hxx" />
     <ClInclude Include="DAOActivitat.hxx" />
     <ClInclude Include="DAOEscapada.hxx" />
+    <ClInclude Include="DAOExperiencia.hxx" />
     <ClInclude Include="DAOUsuari.hxx" />
     <ClInclude Include="DTOExperiencia.hxx" />
     <ClInclude Include="DTOReserva.hxx" />
@@ -213,6 +216,7 @@
     <ClInclude Include="reserva.hxx" />
     <ClInclude Include="usuari-odb.hxx" />
     <ClInclude Include="usuari.hxx" />
+    <ClInclude Include="CtrlConsultaNovetats.hxx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="configuracio.env" />

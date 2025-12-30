@@ -10,6 +10,7 @@
 #include "CtrlConsultaExperiencies.hxx"
 #include "CtrlConsultaReserves.hxx"
 #include "DTOReserves.hxx"
+#include "CtrlConsultaNovetats.hxx"
 
 #include "PlanGo.hxx" 
 #include <iostream>
@@ -548,4 +549,47 @@ void CapaDePresentacio::visualitzarReserves() {
 
     cout << "\nPrem Intro per continuar...";
     cin.ignore(); cin.get();
+}
+
+void CapaDePresentacio::consultarNovetats()
+{
+    using namespace std;
+
+    cout << "** Consultar novetats **" << endl;
+
+    try {
+        CtrlConsultaNovetats ctrl;
+        auto novetats = ctrl.consultar_novetats(10);
+
+        if (novetats.empty()) {
+            cout << "No hi ha experiències recents." << endl;
+        }
+
+        for (const auto& e : novetats) {
+            cout << "Nom: " << e.get_nom() << endl;
+            cout << "Descripcio: " << e.get_descripcio() << endl;
+            cout << "Ciutat: " << e.get_ciutat() << endl;
+            cout << "Places: " << e.get_maxim_places() << endl;
+            cout << "Preu: " << e.get_preu() << endl;
+
+            if (!e.get_hotel().empty()) {
+                cout << "Tipus: ESCAPADA" << endl;
+                cout << "Hotel: " << e.get_hotel() << endl;
+                cout << "Nits: " << e.get_num_nits() << endl;
+            }
+            else {
+                cout << "Tipus: ACTIVITAT" << endl;
+                cout << "Durada: " << e.get_durada() << endl;
+            }
+
+            cout << "-------------------------" << endl;
+        }
+    }
+    catch (exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+
+    cout << "\nPrem Intro per continuar...";
+    cin.ignore();
+    cin.get();
 }
