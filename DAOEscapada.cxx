@@ -27,3 +27,29 @@ std::shared_ptr<escapada> DAOEscapada::obte(const std::string& nom) {
 
     return result;
 }
+
+std::vector<std::shared_ptr<escapada>>
+DAOEscapada::obtePerCiutatIPersones(const std::string& ciutat, int numPersones)
+{
+    using namespace odb::core;
+
+    transaction t(_db->begin());
+
+    typedef odb::query<escapada> query;
+    typedef odb::result<escapada> result;
+
+    // Filtro por ciutat y capacidad
+    query q = (query::ciutat == ciutat && query::maxim_places >= numPersones);
+
+    // Orden ascendente por maxim_places (según diseño)
+    // En ODB se puede concatenar SQL para ORDER BY:
+    result r = _db->query<escapada>(q + " ORDER BY " + query::maxim_places + " ASC");
+
+    std::vector<std::shared_ptr<escapada>> llista;
+    for (auto it = r.begin(); it != r.end(); ++it) {
+        llista.push_back(it.load());   // load() => shared_ptr<escapada>
+    }
+
+    t.commit();
+    return llista;
+}

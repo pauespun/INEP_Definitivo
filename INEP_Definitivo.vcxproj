@@ -152,6 +152,7 @@
     <ClCompile Include="CapaDeDomini.cxx" />
     <ClCompile Include="CapaDePresentacio.cxx" />
     <ClCompile Include="connexioBD.cxx" />
+    <ClCompile Include="CtrlConsultaExperiencies.cxx" />
     <ClCompile Include="CtrlConsultaUsuari.cxx" />
     <ClCompile Include="CtrlEsborrarUsuari.cxx" />
     <ClCompile Include="CtrlIniciSessio.cxx" />
@@ -185,6 +186,7 @@
     <ClInclude Include="CapaDeDomini.hxx" />
     <ClInclude Include="CapaDePresentacio.hxx" />
     <ClInclude Include="connexioBD.hxx" />
+    <ClInclude Include="CtrlConsultaExperiencies.hxx" />
     <ClInclude Include="CtrlConsultaUsuari.hxx" />
     <ClInclude Include="CtrlEsborrarUsuari.hxx" />
     <ClInclude Include="CtrlIniciSessio.hxx" />

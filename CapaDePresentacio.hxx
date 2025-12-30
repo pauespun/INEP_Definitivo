@@ -31,6 +31,9 @@ public:
     void reservarEscapada();
     void reservarActivitat();
 
+    void consultarExperiencies();
+
+
     // Mètodes antics (llegir_usuaris, etc.) els pots mantenir si vols per debug,
     // però en l'aplicació final no se solen mostrar tots els usuaris.
 

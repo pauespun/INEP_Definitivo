@@ -7,6 +7,7 @@
 #include "CtrlEsborrarUsuari.hxx"
 #include "CtrlReservaEscapada.hxx"
 #include "CtrlReservaActivitat.hxx"
+#include "CtrlConsultaExperiencies.hxx"
 
 #include "PlanGo.hxx" 
 #include <iostream>
@@ -418,4 +419,64 @@ void CapaDePresentacio::reservarActivitat() {
 }
 
 
+// =========================================================
+// 3. CONSULTAR EXPERIENCIES (Implementación del caso de uso 3.3.1)
+// =========================================================
+void CapaDePresentacio::consultarExperiencies() {
+    using namespace std;
 
+    string ciutat;
+    int numPersones;
+
+    cout << "** Consultar experiències **" << endl;
+
+    cout << "Introdueix la ciutat: ";
+    if (cin.peek() == '\n') cin.ignore();
+    getline(cin, ciutat);
+
+    cout << "Introdueix el nombre de persones: ";
+    cin >> numPersones;
+
+    try {
+        CtrlConsultaExperiencies ctrl;
+
+        auto escapades = ctrl.consulta_escapades(ciutat, numPersones);
+        auto activitats = ctrl.consulta_activitats(ciutat, numPersones);
+
+        cout << "\n--- Escapades ---" << endl;
+        if (escapades.empty()) {
+            cout << "No hi ha escapades disponibles." << endl;
+        }
+        for (const auto& e : escapades) {
+            cout << "Nom: " << e.get_nom() << endl;
+            cout << "Descripcio: " << e.get_descripcio() << endl;
+            cout << "Ciutat: " << e.get_ciutat() << endl;
+            cout << "Places: " << e.get_maxim_places() << endl;
+            cout << "Preu: " << e.get_preu() << endl;
+            cout << "Hotel: " << e.get_hotel() << endl;
+            cout << "Nits: " << e.get_num_nits() << endl;
+            cout << "-----------------------------" << endl;
+        }
+
+        cout << "\n--- Activitats ---" << endl;
+        if (activitats.empty()) {
+            cout << "No hi ha activitats disponibles." << endl;
+        }
+        for (const auto& a : activitats) {
+            cout << "Nom: " << a.get_nom() << endl;
+            cout << "Descripcio: " << a.get_descripcio() << endl;
+            cout << "Ciutat: " << a.get_ciutat() << endl;
+            cout << "Places: " << a.get_maxim_places() << endl;
+            cout << "Preu: " << a.get_preu() << endl;
+            cout << "Durada: " << a.get_durada() << endl;
+            cout << "-----------------------------" << endl;
+        }
+    }
+    catch (exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+
+    cout << "\nPrem Intro per continuar...";
+    cin.ignore();
+    cin.get();
+}
