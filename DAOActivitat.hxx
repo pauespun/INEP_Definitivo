@@ -19,6 +19,9 @@ public:
     std::vector<std::shared_ptr<activitat>>
     obtePerCiutatIPersones(const std::string& ciutat, int numPersones);
 
+    std::vector<std::shared_ptr<activitat>>
+    obte_per_mes_reservades(int numElems);
+
 private:
     // Puntero a la base de datos (se inicializará con la conexión global)
     std::shared_ptr<odb::mysql::database> _db;

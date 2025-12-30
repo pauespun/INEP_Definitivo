@@ -31,6 +31,7 @@ public:
 
     void consultarExperiencies();
     void consultarNovetats();
+    void consultarMesReservades();
     void visualitzarReserves();
 
 

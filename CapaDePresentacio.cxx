@@ -11,6 +11,7 @@
 #include "CtrlConsultaReserves.hxx"
 #include "DTOReserves.hxx"
 #include "CtrlConsultaNovetats.hxx"
+#include "CtrlConsultaMesReservades.hxx"
 
 #include "PlanGo.hxx" 
 #include <iostream>
@@ -582,6 +583,52 @@ void CapaDePresentacio::consultarNovetats()
                 cout << "Durada: " << e.get_durada() << endl;
             }
 
+            cout << "-------------------------" << endl;
+        }
+    }
+    catch (exception& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+
+    cout << "\nPrem Intro per continuar...";
+    cin.ignore();
+    cin.get();
+}
+
+void CapaDePresentacio::consultarMesReservades()
+{
+    using namespace std;
+
+    cout << "** Consultar experiències més reservades **" << endl;
+
+    try {
+        CtrlConsultaMesReservades ctrl;
+
+        auto escapades = ctrl.consulta_escapades(5);
+        auto activitats = ctrl.consulta_activitats(5);
+
+        cout << "\n--- Escapades més reservades ---" << endl;
+        if (escapades.empty())
+            cout << "No hi ha escapades." << endl;
+
+        for (const auto& e : escapades) {
+            cout << "Nom: " << e.get_nom() << endl;
+            cout << "Ciutat: " << e.get_ciutat() << endl;
+            cout << "Preu: " << e.get_preu() << endl;
+            cout << "Hotel: " << e.get_hotel() << endl;
+            cout << "Nits: " << e.get_num_nits() << endl;
+            cout << "-------------------------" << endl;
+        }
+
+        cout << "\n--- Activitats més reservades ---" << endl;
+        if (activitats.empty())
+            cout << "No hi ha activitats." << endl;
+
+        for (const auto& a : activitats) {
+            cout << "Nom: " << a.get_nom() << endl;
+            cout << "Ciutat: " << a.get_ciutat() << endl;
+            cout << "Preu: " << a.get_preu() << endl;
+            cout << "Durada: " << a.get_durada() << endl;
             cout << "-------------------------" << endl;
         }
     }

@@ -111,6 +111,15 @@
     <ClCompile Include="activitat.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="DAOExperiencia.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlConsultaNovetats.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlConsultaMesReservades.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="usuari.hxx">
@@ -198,6 +207,15 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="CtrlConsultaReserves.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="DAOExperiencia.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlConsultaNovetats.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlConsultaMesReservades.hxx">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

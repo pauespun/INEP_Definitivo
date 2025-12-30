@@ -152,6 +152,7 @@
     <ClCompile Include="CapaDePresentacio.cxx" />
     <ClCompile Include="connexioBD.cxx" />
     <ClCompile Include="CtrlConsultaExperiencies.cxx" />
+    <ClCompile Include="CtrlConsultaMesReservades.cxx" />
     <ClCompile Include="CtrlConsultaReserves.cxx" />
     <ClCompile Include="CtrlConsultaUsuari.cxx" />
     <ClCompile Include="CtrlEsborrarUsuari.cxx" />
@@ -190,6 +191,7 @@
     <ClInclude Include="CapaDePresentacio.hxx" />
     <ClInclude Include="connexioBD.hxx" />
     <ClInclude Include="CtrlConsultaExperiencies.hxx" />
+    <ClInclude Include="CtrlConsultaMesReservades.hxx" />
     <ClInclude Include="CtrlConsultaReserves.hxx" />
     <ClInclude Include="CtrlConsultaUsuari.hxx" />
     <ClInclude Include="CtrlEsborrarUsuari.hxx" />

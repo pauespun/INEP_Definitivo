@@ -51,3 +51,27 @@ DAOActivitat::obtePerCiutatIPersones(const std::string& ciutat, int numPersones)
     t.commit();
     return llista;
 }
+
+std::vector<std::shared_ptr<activitat>>
+DAOActivitat::obte_per_mes_reservades(int numElems)
+{
+    using namespace odb::core;
+
+    transaction t(_db->begin());
+
+    typedef query<activitat> query;
+    typedef result<activitat> result;
+
+    result r = _db->query<activitat>(
+        "ORDER BY " + query::num_reserves + " DESC, "
+        + query::data_alta + " DESC LIMIT " + std::to_string(numElems)
+    );
+
+    std::vector<std::shared_ptr<activitat>> llista;
+    for (auto it = r.begin(); it != r.end(); ++it) {
+        llista.push_back(it.load());
+    }
+
+    t.commit();
+    return llista;
+}
