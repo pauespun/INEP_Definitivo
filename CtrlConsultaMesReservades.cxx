@@ -15,9 +15,6 @@ static void validar_num_elems(int n) {
         throw invalid_argument("El nombre d'elements ha de ser major que 0.");
 }
 
-// =======================================================
-// ESCAPADES MÉS RESERVADES
-// =======================================================
 vector<DTOExperiencia>
 CtrlConsultaMesReservades::consulta_escapades(int numElems)
 {
@@ -46,9 +43,6 @@ CtrlConsultaMesReservades::consulta_escapades(int numElems)
     return resultat;
 }
 
-// =======================================================
-// ACTIVITATS MÉS RESERVADES
-// =======================================================
 vector<DTOExperiencia>
 CtrlConsultaMesReservades::consulta_activitats(int numElems)
 {

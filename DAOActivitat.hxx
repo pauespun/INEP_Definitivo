@@ -19,6 +19,7 @@ public:
     std::vector<std::shared_ptr<activitat>>
     obtePerCiutatIPersones(const std::string& ciutat, int numPersones);
 
+	// Para "Consultar activitats més reservades"
     std::vector<std::shared_ptr<activitat>>
     obte_per_mes_reservades(int numElems);
 
