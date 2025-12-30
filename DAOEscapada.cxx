@@ -1,5 +1,5 @@
 #include "DAOEscapada.hxx"
-#include "escapada-odb.hxx" // Archivo generado por ODB
+#include "escapada-odb.hxx" 
 #include <odb/transaction.hxx>
 #include "connexioBD.hxx"
 
@@ -41,13 +41,13 @@ DAOEscapada::obtePerCiutatIPersones(const std::string& ciutat, int numPersones)
     // Filtro por ciutat y capacidad
     query q = (query::ciutat == ciutat && query::maxim_places >= numPersones);
 
-    // Orden ascendente por maxim_places (según diseño)
+    // Orden ascendente por maxim_places
     // En ODB se puede concatenar SQL para ORDER BY:
     result r = _db->query<escapada>(q + " ORDER BY " + query::maxim_places + " ASC");
 
     std::vector<std::shared_ptr<escapada>> llista;
     for (auto it = r.begin(); it != r.end(); ++it) {
-        llista.push_back(it.load());   // load() => shared_ptr<escapada>
+        llista.push_back(it.load());  
     }
 
     t.commit();

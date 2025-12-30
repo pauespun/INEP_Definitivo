@@ -27,11 +27,9 @@ public:
     // Setters
     void set_nom(std::string nom);
     void set_correuElectronic(std::string correu);
-    void set_contrasenya(std::string contra);
     void set_edat(int edat);
 
-    // --- NUEVO MÉTODO SEGÚN DIAGRAMA [cite: 154] ---
-    // Retorna true si coincide, false si no.
+
     bool comprovaContrasenya(const std::string& contra) const;
 
     float afegirReserva(std::shared_ptr<experiencia> e);

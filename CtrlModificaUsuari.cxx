@@ -1,13 +1,12 @@
 #include "CtrlModificaUsuari.hxx"
-#include "CtrlConsultaUsuari.hxx" // IMPORTANTE: Para reutilizar la consulta
+#include "CtrlConsultaUsuari.hxx" 
 #include "PlanGo.hxx"
 #include "DAOUsuari.hxx"
-#include "CtrlRegistraUsuari.hxx" // Para las excepciones (CorreuExisteix, MenorEdat)
+#include "CtrlRegistraUsuari.hxx" 
 #include <stdexcept>
 
 // --- 1. CONSULTA (Reutilització) ---
 DTOUsuari CtrlModificaUsuari::consultaUsuari() {
-    // "Nota: reusem el consulta usuari del CtrlConsultaUsuari"
     CtrlConsultaUsuari ctrlConsulta;
     return ctrlConsulta.consultaUsuari();
 }

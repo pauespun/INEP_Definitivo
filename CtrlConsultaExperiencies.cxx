@@ -16,9 +16,6 @@ static void validar_num_persones(int numPersones)
         throw invalid_argument("El nombre de persones ha de ser major que 0.");
 }
 
-// =======================================================
-// CONSULTAR ESCAPADES
-// =======================================================
 vector<DTOExperiencia>
 CtrlConsultaExperiencies::consulta_escapades(
     const string& ciutat,
@@ -49,9 +46,6 @@ CtrlConsultaExperiencies::consulta_escapades(
     return resultat;
 }
 
-// =======================================================
-// CONSULTAR ACTIVITATS
-// =======================================================
 vector<DTOExperiencia>
 CtrlConsultaExperiencies::consulta_activitats(
     const string& ciutat,

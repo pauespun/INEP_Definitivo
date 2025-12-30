@@ -1,10 +1,10 @@
 #include "PlanGo.hxx"
 
-// Inicializamos el puntero estático
+
 PlanGo* PlanGo::instance = nullptr;
 
 PlanGo::PlanGo() {
-    descompte = 0.20f; // Ejemplo: 20% descuento [cite: 41]
+    descompte = 0.20f; 
     usuariLoggejat = nullptr;
 }
 

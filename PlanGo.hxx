@@ -7,7 +7,7 @@ private:
     // Instancia única (Singleton)
     static PlanGo* instance;
 
-    // Usuario actualmente logueado (puntero inteligente)
+    // Usuario actualmente logueado
     std::shared_ptr<usuari> usuariLoggejat;
     float descompte;
 

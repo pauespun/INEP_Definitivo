@@ -4,9 +4,9 @@
 #include <string>
 #include <memory>
 #include <vector>
-// Forward declarations necessàries
+
 namespace odb { namespace mysql { class database; } }
-class reserva; // IMPRESCINDIBLE per evitar l'error C2061
+class reserva; 
 
 class DAOReserva {
 public:
@@ -29,4 +29,4 @@ private:
     std::shared_ptr<odb::mysql::database> _db;
 };
 
-#endif // DAORESERVA_HXX
+#endif

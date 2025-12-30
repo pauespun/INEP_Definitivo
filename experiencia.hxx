@@ -28,16 +28,13 @@ public:
     void set_data_alta(const std::string& da);
     void set_num_reserves(int nr);
 
-    // 1) Polimórfico: depende del tipo (escapada/activitat)
     virtual float calculaPreu(int nPersones) const = 0;
 
-    // 2) Concreto: aplica descuento si es primera reserva
     float calculaPreu(int nPersones, bool primeraRes) const;
 
     DTOExperiencia obteInfo() const;
 
 protected:
-    // Operació primitiva abstracta que implementaran les subclasses
     virtual void ompleDetalls(DTOExperiencia& dto) const = 0;
 
 protected:

@@ -4,7 +4,7 @@
 DTOUsuari::DTOUsuari(std::string sobrenom, std::string nom, std::string correu, int edat, int totalReserves)
     : _sobrenom(sobrenom), _nom(nom), _correuElectronic(correu), _edat(edat), _totalReserves(totalReserves)
 {
-    _contrasenya = ""; // No devolvemos la contraseña al consultar
+    _contrasenya = "";
 }
 
 // Constructor para REGISTRAR (Con contraseña, reservas a 0)

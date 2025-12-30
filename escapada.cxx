@@ -8,8 +8,7 @@ escapada::escapada(const std::string& nom, const std::string& desc, const std::s
     int max_places, float preu, const std::string& data,
     const std::string& hotel, int nits)
 {
-    // Usamos los setters de la clase padre o asignamos directamente si tenemos acceso (protected)
-    // Al ser protected en experiencia.hxx, podemos acceder a _nom, etc.
+ 
     _nom = nom;
     _descripcio = desc;
     _ciutat = ciutat;
@@ -43,7 +42,6 @@ void escapada::set_num_nits(int n) {
 
 float escapada::calculaPreu(int /*nPersones*/) const
 {
-    // según el diagrama: devuelve _preu (precio fijo)
     return _preu;
 }
 

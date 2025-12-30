@@ -1,7 +1,7 @@
 #include "CtrlRegistraUsuari.hxx"
 #include "DAOUsuari.hxx"
 #include "Excepcions.hxx" 
-// #include <odb/exceptions.hxx> // Ja no cal tant
+
 
 void CtrlRegistraUsuari::registrarUsuari(const std::string& nom, const std::string& sobrenom,
     const std::string& contrasenya, const std::string& correu, int edat) {
@@ -13,14 +13,12 @@ void CtrlRegistraUsuari::registrarUsuari(const std::string& nom, const std::stri
 
     DAOUsuari dao;
 
-    // 2. Comprovar si el SOBRENOM ja existeix (Manualment)
-    // El teu DAO ja té un mètode 'existeix' (o usa obte + try-catch)
+    // 2. Comprovar si el SOBRENOM ja existeix 
     if (dao.existeix(sobrenom)) {
         throw SobrenomExisteix();
     }
 
-    // 3. Comprovar si el CORREU ja existeix (Manualment)
-    // Utilitza el mètode 'existeixEmail' que tens al codi que m'has passat
+    // 3. Comprovar si el CORREU ja existeix 
     if (dao.existeixEmail(correu)) {
         throw CorreuExisteix();
     }

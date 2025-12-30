@@ -67,21 +67,16 @@ void experiencia::set_num_reserves(int nr) {
 }
 
 float experiencia::calculaPreu(int nPersones, bool primeraRes) const {
-    float preu = calculaPreu(nPersones); // polimórfico
+    float preu = calculaPreu(nPersones); 
 
     if (primeraRes) {
-        float d = PlanGo::getInstance().get_descompte(); // d = 0.2
-        preu = preu * (1.0f - d); // ✅ 0.8
+        float d = PlanGo::getInstance().get_descompte();
+        preu = preu * (1.0f - d); 
     }
     return preu;
 }
 
 DTOExperiencia experiencia::obteInfo() const {
-    // 1. Omplim la part comú
-    // Nota: El constructor de DTOExperiencia espera tots els paràmetres. 
-    // Els passarem buits/0 i deixarem que ompleDetalls els posi correctament o farem servir setters.
-    // Assumirem que DTOExperiencia té setters o un constructor flexible.
-    // Si el teu DTOExperiencia actual no té setters, caldrà afegir-los o crear el DTO amb valors per defecte.
 
     DTOExperiencia dto(
         get_nom(),
@@ -89,10 +84,9 @@ DTOExperiencia experiencia::obteInfo() const {
         get_ciutat(),
         get_maxim_places(),
         get_preu(),
-        "", 0, 0 // Valors buits per Hotel, Nits, Durada
+        "", 0, 0 
     );
 
-    // 2. Cridem a la subclasse per omplir els detalls específics
     ompleDetalls(dto);
 
     return dto;

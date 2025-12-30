@@ -41,7 +41,6 @@ DTOUsuari usuari::obteInfo() const {
 std::vector<std::shared_ptr<reserva>>& usuari::get_reserves() { return _reserves; }
 void usuari::set_reserves(const std::vector<std::shared_ptr<reserva>>& r) { _reserves = r; }
 
-// Caso Escapada (places = maxim_places)
 float usuari::afegirReserva(std::shared_ptr<experiencia> e) {
     auto db = connexioBD::getInstance().getDB();
 
@@ -67,8 +66,6 @@ float usuari::calculaPreuReserva(std::shared_ptr<experiencia> e, int numPersones
     if (!e) throw std::runtime_error("Experiencia nula");
     if (numPersones < 1) throw std::invalid_argument("numPersones ha de ser >= 1");
 
-    // Instanciamos el DAO (o lo pasamos por inyección si fuéramos muy puristas, 
-    // pero instanciarlo aquí es aceptable en este diseño).
     DAOReserva dao;
 
     // 1. COMPROBAR CAPACIDAD (Usando el DAO)

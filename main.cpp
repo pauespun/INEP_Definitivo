@@ -7,35 +7,28 @@
 
 using namespace std;
 
-// --- PROTOTIPS ---
-void menu_inici();          // Menú 1: Login / Registro
-void menu_principal();      // Menú 2: Menú general
-
-// Els submenús ara necessiten saber si s'ha tancat la sessió des de dins
+void menu_inici();          
+void menu_principal();      
 void menu_gestio_usuaris(bool& sessioTancada);
 void menu_gestio_reserves();
+void menu_consultes();      
 
-// --- MAIN ---
+
 int main()
 {
-    // Configuració regional per a caràcters especials
     std::locale::global(std::locale(""));
 
-    // Inicialització de la BD (opcional segons la teva implementació)
     try {
         connexioBD::getInstance().getDB();
     }
     catch (...) {
-        // Ignorem errors d'inicialització aquí, ja sortiran després
     }
 
     menu_inici();
     return 0;
 }
 
-// -------------------------------------------------------------------
-// 1. MENÚ D'INICI (No loguejat)
-// -------------------------------------------------------------------
+
 void menu_inici()
 {
     int opcio;
@@ -46,22 +39,19 @@ void menu_inici()
         cout << "\n===== PLANGO: MENU INICI =====\n";
         cout << "1. Iniciar Sessio\n";
         cout << "2. Registrar Usuari\n";
-        cout << "3. Consultes\n"; // Assumim consulta experiències sense login
+        cout << "3. Consultes\n"; 
         cout << "0. Sortir\n";
         cout << "Opcio: ";
 
-        // Validació d'entrada per evitar bucles infinits amb lletres
         if (!(cin >> opcio)) {
             cout << "Error: Entrada no valida.\n";
-            cin.clear();
-            cin.ignore(1000, '\n');
+            cin.clear(); cin.ignore(1000, '\n');
             continue;
         }
 
         switch (opcio)
         {
         case 1:
-            // Si el login és correcte (retorna true), entrem al menú principal
             if (presentacio.iniciarSessio()) {
                 menu_principal();
             }
@@ -83,22 +73,20 @@ void menu_inici()
     } while (!sortir);
 }
 
-// -------------------------------------------------------------------
-// 2. MENÚ PRINCIPAL (Loguejat)
-// -------------------------------------------------------------------
+
 void menu_principal()
 {
     int opcio;
-    bool tancar_sessio = false; // Controla el bucle del menú principal
+    bool tancar_sessio = false;
     CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
 
     do {
         cout << "\n===== PLANGO: MENU PRINCIPAL =====\n";
         cout << "1. Gestio usuaris\n";
-        cout << "2. Gestio reserves\n";
-        cout << "3. Reserves\n"; // Visualitzar reserves directament
+        cout << "2. Gestio reserves\n";  
+        cout << "3. Consultes\n";        
         cout << "4. Tancar sessio\n";
-        cout << "0. Sortir de l'aplicacio\n";
+        cout << "0. Sortir\n";
         cout << "Opcio: ";
 
         if (!(cin >> opcio)) {
@@ -109,9 +97,6 @@ void menu_principal()
         switch (opcio)
         {
         case 1:
-            // Passem 'tancar_sessio' per referència.
-            // Si dins del submenú es tanca la sessió (o s'esborra l'usuari),
-            // aquesta variable es posarà a true.
             menu_gestio_usuaris(tancar_sessio);
             break;
 
@@ -120,11 +105,10 @@ void menu_principal()
             break;
 
         case 3:
-            presentacio.visualitzarReserves();
+            menu_consultes(); 
             break;
 
         case 4:
-            // Només sortim del bucle si realment s'ha tancat la sessió (usuari diu 'S')
             if (presentacio.tancarSessio()) {
                 tancar_sessio = true;
             }
@@ -132,22 +116,17 @@ void menu_principal()
 
         case 0:
             cout << "Tancant aplicacio...\n";
-            exit(0); // Sortida directa del programa
+            exit(0);
             break;
 
         default:
             cout << "Opcio no valida.\n";
             break;
         }
-
-        // Si tornem d'un submenú i s'ha tancat la sessió, el 'while' fallarà i sortirem
-        // automàticament cap al menu_inici().
     } while (!tancar_sessio);
 }
 
-// -------------------------------------------------------------------
-// 2.1. SUBMENÚ GESTIÓ USUARIS
-// -------------------------------------------------------------------
+
 void menu_gestio_usuaris(bool& sessioTancada)
 {
     int opcio;
@@ -156,11 +135,11 @@ void menu_gestio_usuaris(bool& sessioTancada)
 
     do {
         cout << "\n--- GESTIO USUARIS ---\n";
-        cout << "1. Consultar usuari\n";
-        cout << "2. Modificar usuari\n";
-        cout << "3. Esborrar usuari\n";
+        cout << "1. Consulta usuari\n";
+        cout << "2. Modifica usuari\n";
+        cout << "3. Esborra usuari\n";
         cout << "4. Tancar sessio\n";
-        cout << "0. Tornar al menu principal\n";
+        cout << "0. Sortir\n";
         cout << "Opcio: ";
 
         if (!(cin >> opcio)) {
@@ -177,20 +156,15 @@ void menu_gestio_usuaris(bool& sessioTancada)
             presentacio.modificarUsuari();
             break;
         case 3:
-            // Si esborrarUsuari retorna true, vol dir que s'ha esborrat i s'ha de tancar sessió
             if (presentacio.esborrarUsuari()) {
-                // presentacio.esborrarUsuari ja hauria de netejar les dades de sessió internament
-                // o pots cridar presentacio.tancarSessio() forçat si cal, però el bool ja indica èxit.
-
-                sessioTancada = true; // Avisem al menú principal que plegui
-                tornar = true;        // Sortim d'aquest submenú
+                sessioTancada = true;
+                tornar = true;
             }
             break;
         case 4:
-            // Si tanquem sessió aquí, avisem al pare
             if (presentacio.tancarSessio()) {
-                sessioTancada = true; // Avisem al menú principal
-                tornar = true;        // Sortim d'aquest submenú
+                sessioTancada = true;
+                tornar = true;
             }
             break;
         case 0:
@@ -203,9 +177,6 @@ void menu_gestio_usuaris(bool& sessioTancada)
     } while (!tornar);
 }
 
-// -------------------------------------------------------------------
-// 2.2. SUBMENÚ GESTIÓ RESERVES
-// -------------------------------------------------------------------
 void menu_gestio_reserves()
 {
     int opcio;
@@ -216,8 +187,8 @@ void menu_gestio_reserves()
         cout << "\n--- GESTIO RESERVES ---\n";
         cout << "1. Reservar escapada\n";
         cout << "2. Reservar activitat\n";
-        cout << "3. Visualitzar reserves\n";
-        cout << "0. Tornar al menu principal\n";
+        cout << "3. Visualitzar reserves\n"; 
+        cout << "0. Sortir\n";
         cout << "Opcio: ";
 
         if (!(cin >> opcio)) {
@@ -236,6 +207,48 @@ void menu_gestio_reserves()
         case 3:
             presentacio.visualitzarReserves();
             break;
+        case 0:
+            tornar = true;
+            break;
+        default:
+            cout << "Opcio no valida.\n";
+            break;
+        }
+    } while (!tornar);
+}
+
+void menu_consultes()
+{
+    int opcio;
+    bool tornar = false;
+    CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
+
+    do {
+        cout << "\n--- CONSULTES ---\n";
+        cout << "1. Consultar experiencies\n";
+		cout << "2. Consultar novetats\n";   
+        cout << "3. Consultar mes reservades\n";
+        cout << "0. Sortir\n";
+        cout << "Opcio: ";
+
+        if (!(cin >> opcio)) {
+            cin.clear(); cin.ignore(1000, '\n');
+            continue;
+        }
+
+        switch (opcio)
+        {
+        case 1:
+            presentacio.consultarExperiencies();
+            break;
+		case 2:
+			// Aquí iría el método para consultar novedades
+			//presentacio.consultarNovetats();
+			break;
+		case 3:
+			// Aquí iría el método para consultar las más reservadas
+			//presentacio.consultarMesReservades();
+			break;
         case 0:
             tornar = true;
             break;

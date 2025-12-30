@@ -4,12 +4,9 @@
 #include "PlanGo.hxx"
 #include "reserva.hxx"
 #include <stdexcept>
-#include "Excepcions.hxx"      // ✅ Important
+#include "Excepcions.hxx"    
 #include <odb/exceptions.hxx>
 
-// Ya no necesitamos reserva-odb.hxx ni usuari-odb.hxx aquí, 
-// porque el controlador ya no hace persist/update directo.
-// Solo necesitamos acceso a BD para la transacción.
 
 CtrlReservaEscapada::CtrlReservaEscapada() {}
 
@@ -20,7 +17,7 @@ DTOExperiencia CtrlReservaEscapada::consulta_escapada(const std::string& nom_esc
         _escapada_actual = dao.obte(nom_escapada);
     }
     catch (const odb::object_not_persistent&) {
-        // ✅ Si ODB diu que no existeix, llancem la nostra excepció de domini
+        // Si ODB diu que no existeix, llancem la nostra excepció de domini
         throw EscapadaNoExisteix();
     }
     catch (...) {
@@ -48,23 +45,21 @@ DTOReserva CtrlReservaEscapada::reserva_escapada() {
     auto u = PlanGo::getInstance().getUsuariLoggejat();
     if (!u) throw std::runtime_error("Usuari no loguejat.");
 
-    // 2. Comprovar disponibilitat (Opcional, segons lògica d'escapades)
+    // 2. Comprovar disponibilitat 
     DAOReserva daoRes;
-    // ... lògica de places si cal ...
+ 
 
-    // 3. Calcular preu (si té lògica de descomptes, aplica-la aquí)
+    // 3. Calcular preu
     float preu = _escapada_actual->get_preu();
 
-    // Si l'usuari no té reserves prèvies, apliquem descompte (Exemple)
+    // Si l'usuari no té reserves prèvies, apliquem descompte
     if (!daoRes.teAlgunaReserva(u->get_sobrenom())) {
         float descompte = PlanGo::getInstance().get_descompte();
         preu = preu * (1.0f - descompte);
     }
 
     // 4. Crear la reserva (Aquí es genera la Data/Hora automàticament al constructor)
-    // Assumim que una escapada reserva totes les places o 1 plaça per defecte segons el teu domini.
-    // Aquí poso '1' plaça com a exemple estàndard d'escapada, ajusta-ho si cal.
-    int placesReservades = _escapada_actual->get_maxim_places(); // O 1, segons com ho tinguis
+    int placesReservades = _escapada_actual->get_maxim_places(); 
 
     auto r = std::make_shared<reserva>(u, _escapada_actual, placesReservades, preu);
 

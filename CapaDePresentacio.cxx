@@ -13,7 +13,6 @@
 
 #include "PlanGo.hxx" 
 #include <iostream>
-// No hace falta incluir DAOUsuari.hxx aquí, la presentación habla con los Controladores.
 
 using namespace std;
 
@@ -25,9 +24,6 @@ CapaDePresentacio& CapaDePresentacio::getInstance() {
 
 CapaDePresentacio::CapaDePresentacio() {}
 
-// =========================================================
-// 1. INICIAR SESSIÓ (Implementación del caso de uso 3.1.1)
-// =========================================================
 bool CapaDePresentacio::iniciarSessio() {
     string sobrenom, contrasenya;
 
@@ -46,17 +42,17 @@ bool CapaDePresentacio::iniciarSessio() {
 		// Guardamos el sobrenom localmente
 		usuariLoguejat = sobrenom;
 
-        // Si no ha saltado error, es que ha ido bien [cite: 128]
+        // Si no ha saltado error, es que ha ido bien 
         cout << "Sessio iniciada correctament!" << endl;
 
         return true; // Retorna true para cambiar de menú en main.cpp
     }
     catch (UsuariNoExisteix) {
         // Capturamos el struct vacío
-        cout << "Hi ha hagut un error amb el sobrenom o la contrasenya" << endl; // [cite: 159]
+        cout << "Hi ha hagut un error amb el sobrenom o la contrasenya" << endl; 
     }
     catch (ErrorContrasenya) {
-        cout << "Hi ha hagut un error amb el sobrenom o la contrasenya" << endl; // [cite: 159]
+        cout << "Hi ha hagut un error amb el sobrenom o la contrasenya" << endl; 
     }
     catch (std::exception& e) {
         cout << "Error inesperat: " << e.what() << endl;
@@ -65,16 +61,12 @@ bool CapaDePresentacio::iniciarSessio() {
     return false; // Login fallido
 }
 
-// =========================================================
-// 2. REGISTRAR USUARI (Implementación del caso de uso 3.1.3)
-// =========================================================
 void CapaDePresentacio::registrarUsuari() {
     string nom, sobrenom, contrasenya, correu;
     int edat;
 
     cout << "** Registre usuari **" << endl;
 
-    // Limpiamos el buffer por si acaso venimos de un cin >> int
     cin.ignore();
 
     cout << "Nom complet: ";
@@ -97,28 +89,23 @@ void CapaDePresentacio::registrarUsuari() {
 
     try {
         ctrl.registrarUsuari(nom, sobrenom, contrasenya, correu, edat);
-        cout << "Usuari registrat amb exit!" << endl; // [cite: 192]
+        cout << "Usuari registrat amb exit!" << endl; 
     }
     catch (SobrenomExisteix) {
-        cout << "Ja existeix un usuari amb aquest sobrenom" << endl; // [cite: 229]
+        cout << "Ja existeix un usuari amb aquest sobrenom" << endl; 
     }
     catch (CorreuExisteix) {
-        cout << "Ja existeix un usuari amb aquest correu electronic" << endl; // [cite: 231]
+        cout << "Ja existeix un usuari amb aquest correu electronic" << endl; 
     }
     catch (MenorEdat) {
-        cout << "No es pot registar un menor" << endl; // [cite: 232]
+        cout << "No es pot registar un menor" << endl;
     }
     catch (std::exception& e) {
         cout << "Error tècnic: " << e.what() << endl;
     }
 }
 
-// =========================================================
-// 3. TANCAR SESSIÓ (Implementación del caso de uso 3.1.2)
-// =========================================================
-
-// En CapaDePresentacio.cxx
-bool CapaDePresentacio::tancarSessio() { // <--- Debe devolver bool
+bool CapaDePresentacio::tancarSessio() { 
     char opcio;
     cout << "Vols tancar la sessio? (S/N): ";
 
@@ -136,7 +123,6 @@ bool CapaDePresentacio::tancarSessio() { // <--- Debe devolver bool
     return false; // <--- Devuelve FALSE si NO cerró
 }
 
-// Funciones pendientes (Stubs) para que compile el menú
 void CapaDePresentacio::consultarUsuari() {
     std::cout << "** Consulta usuari **" << std::endl;
 
@@ -164,7 +150,6 @@ void CapaDePresentacio::modificarUsuari() {
 
     CtrlModificaUsuari ctrl;
 
-    // 1. MOSTRAR INFORMACIÓN ACTUAL (Escenario principal)
     try {
         // Llamamos a consultaUsuari del propio controlador de modificación
         DTOUsuari infoActual = ctrl.consultaUsuari();
@@ -180,7 +165,6 @@ void CapaDePresentacio::modificarUsuari() {
         return; // Si no podemos leer, salimos
     }
 
-    // 2. PEDIR DATOS NUEVOS
     cout << "(Deixa en blanc per mantenir el valor actual)" << endl;
 
     string nom, correu, edatStr;
@@ -207,7 +191,6 @@ void CapaDePresentacio::modificarUsuari() {
         }
     }
 
-    // 3. MODIFICAR Y MOSTRAR RESULTADO CONFIRMADO
     try {
         // El controlador nos devuelve la info leída directamente de la BD post-cambio
         DTOUsuari infoModificada = ctrl.modificaUsuari(nom, correu, edat);
@@ -313,12 +296,12 @@ void CapaDePresentacio::reservarEscapada() {
 
         if (confirmacio == 'S' || confirmacio == 's') {
 
-            // ✅ CANVI: Recollim el DTO en lloc del float
+       
             DTOReserva resultat = ctrl.reserva_escapada();
 
             cout << "Reserva enregistrada correctament." << endl;
 
-            // ✅ AQUI MOSTREM LA DATA I HORA
+         
             cout << "Data i hora de la reserva: " << resultat.get_data() << endl;
 
             cout << "Preu aplicat a la reserva: " << resultat.get_preuPagat() << endl;
@@ -354,7 +337,7 @@ void CapaDePresentacio::reservarActivitat() {
     CtrlReservaActivitat ctrl;
 
     try {
-        // Escenari alternatiu: Activitat no existeix (Capturat al final)
+        // Escenari alternatiu: Activitat no existeix
         DTOExperiencia info = ctrl.consulta_activitat(nomActivitat);
 
         // Mostrar dades...
@@ -387,7 +370,7 @@ void CapaDePresentacio::reservarActivitat() {
 
                 cout << "Error: El nombre de persones supera les places disponibles." << endl;
 
-                // Mostrem la realitat: "Queden 2 places", no "Màxim 10".
+                // Mostrem la realitat
                 cout << "Places lliures actualment: " << lliures << endl;
 
                 cout << "Vols introduir un altre nombre? (S/N): ";
@@ -426,9 +409,6 @@ void CapaDePresentacio::reservarActivitat() {
 }
 
 
-// =========================================================
-// 3. CONSULTAR EXPERIENCIES (Implementación del caso de uso 3.3.1)
-// =========================================================
 void CapaDePresentacio::consultarExperiencies() {
     using namespace std;
 
@@ -487,7 +467,6 @@ void CapaDePresentacio::consultarExperiencies() {
     cin.ignore();
     cin.get();
 }
-// Substitueix el teu mètode visualitzarReserves per aquest:
 
 void CapaDePresentacio::visualitzarReserves() {
     using namespace std;

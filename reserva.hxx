@@ -29,8 +29,6 @@ public:
 
     // Setters
     void set_data(const std::string& d);
-    // Normalmente no cambiamos ID, usuario o experiencia de una reserva ya creada, 
-    // pero puedes añadirlos si los necesitas.
 
     DTOReserva obteInfo();
 private:

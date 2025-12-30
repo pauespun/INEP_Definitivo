@@ -6,7 +6,7 @@
 
 class DTOReserva {
 public:
-    // Constructor buit (necessari per a vectors o ODB a vegades)
+    // Constructor buit
     DTOReserva();
 
     // Constructor complet

@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 #include <odb/database.hxx>
-#include "usuari.hxx" // Tu clase del modelo
-#include "DTOUsuari.hxx" // Si necesitas devolver DTOs, si no, quítalo
+#include "usuari.hxx" 
+#include "DTOUsuari.hxx" 
 
 class DAOUsuari {
 private:

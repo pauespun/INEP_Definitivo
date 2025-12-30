@@ -1,5 +1,5 @@
 #include "DAOActivitat.hxx"
-#include "activitat-odb.hxx"   // Archivo generado por ODB
+#include "activitat-odb.hxx"   
 #include <odb/transaction.hxx>
 #include "connexioBD.hxx"
 
@@ -23,7 +23,7 @@ std::shared_ptr<activitat> DAOActivitat::obte(const std::string& nom) {
     t.commit();
 
     if (!result) {
-        throw ActivitatNoExisteix();  // <-- asegúrate que existe en Excepcions.hxx
+        throw ActivitatNoExisteix();  
     }
 
     return result;

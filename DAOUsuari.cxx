@@ -1,20 +1,17 @@
 #include "DAOUsuari.hxx"
-#include "connexioBD.hxx" // Asegúrate que el nombre del archivo coincide (mayus/minus)
-#include "usuari-odb.hxx" // Generado por ODB
+#include "connexioBD.hxx" 
+#include "usuari-odb.hxx" 
 #include <odb/transaction.hxx>
 
 using namespace std;
 
 DAOUsuari::DAOUsuari() {
-    // Obtenemos la instancia del Singleton
     db = connexioBD::getInstance().getDB();
 }
 
 bool DAOUsuari::existeix(const string& sobrenom) {
     odb::transaction t(db->begin());
 
-    // CORRECCIÓN 1: Sin guion bajo (_sobrenom -> sobrenom)
-    // CORRECCIÓN 2: No usamos .count(), comprobamos si el iterador tiene datos
     auto result = db->query<usuari>(odb::query<usuari>::sobrenom == sobrenom);
     bool existe = !result.empty();
 
@@ -25,7 +22,6 @@ bool DAOUsuari::existeix(const string& sobrenom) {
 bool DAOUsuari::existeixEmail(const string& email) {
     odb::transaction t(db->begin());
 
-    // CORRECCIÓN: Sin guion bajo y usando empty()
     auto result = db->query<usuari>(odb::query<usuari>::correuElectronic == email);
     bool existe = !result.empty();
 
@@ -36,7 +32,6 @@ bool DAOUsuari::existeixEmail(const string& email) {
 std::vector<usuari> DAOUsuari::tots() {
     odb::transaction t(db->begin());
 
-    // Consulta sin filtro para obtener todos
     odb::result<usuari> r = db->query<usuari>();
 
     std::vector<usuari> llista;

@@ -2,8 +2,6 @@
 #include <string>
 #include "DTOUsuari.hxx"
 #include "DTOExperiencia.hxx"
-// Inclou aquí la teva classe de Domini si cal, o fes forward declaration
-// #include "CapaDeDomini.hxx"
 
 class CapaDePresentacio {
 public:
@@ -34,8 +32,6 @@ public:
     void consultarExperiencies();
     void visualitzarReserves();
 
-    // Mètodes antics (llegir_usuaris, etc.) els pots mantenir si vols per debug,
-    // però en l'aplicació final no se solen mostrar tots els usuaris.
 
 private:
     CapaDePresentacio(); // Constructor privat

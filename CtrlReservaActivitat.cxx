@@ -5,7 +5,6 @@
 #include "Excepcions.hxx"
 #include <stdexcept>
 #include "reserva.hxx"
-// NO incloem connexioBD ni ODB aquí. Prohibit.
 
 CtrlReservaActivitat::CtrlReservaActivitat() {}
 
@@ -46,10 +45,10 @@ float CtrlReservaActivitat::preu_total(int numPersones) const {
     // Deleguem la consulta de BD al DAO
     DAOReserva daoReserva;
 
-    // 1. Validar AFORO REAL (Opcional, si lo pide el requisito)
+    // 1. Validar AFORO REAL 
     int ocupadas = daoReserva.placesOcupades(_activitat_actual->get_nom());
     if (ocupadas + numPersones > _activitat_actual->get_maxim_places()) {
-        throw SuperaMaxim(); // O una excepción especifica "ActivitatPlena"
+        throw SuperaMaxim(); 
     }
 
     bool teReserves = daoReserva.teAlgunaReserva(u->get_sobrenom());

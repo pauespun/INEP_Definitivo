@@ -4,7 +4,6 @@
 #include "experiencia.hxx"
 #include <ctime> 
 
-// Función auxiliar local
 std::string obtener_fecha_actual_reserva() {
     time_t now = time(0);
     struct tm tstruct;

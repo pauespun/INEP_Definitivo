@@ -4,7 +4,6 @@
 #include <odb/transaction.hxx>
 #include <odb/query.hxx>
 
-// ✅ Includes necessaris perquè el compilador entengui la classe 'reserva' i les queries
 #include "reserva.hxx"
 #include "reserva-odb.hxx" 
 
@@ -31,16 +30,14 @@ bool DAOReserva::teAlgunaReserva(const std::string& sobrenom) {
     }
 }
 
-// ✅ Mètode recuperat exactament com el tenies
 int DAOReserva::placesOcupades(const std::string& nomExperiencia) {
     using odb::core::transaction;
 
     typedef odb::query<reserva> query;
     typedef odb::result<reserva> result;
 
-    // Lògica de la consulta (lambda)
+    // Lògica de la consulta
     auto fer_consulta = [&](odb::database& db) {
-        // Nota: Assegura't que 'experiencia' és el nom del punter a reserva.hxx
         result r = db.query<reserva>(query::experiencia->nom == nomExperiencia);
         int total = 0;
         for (const auto& res : r) {
@@ -78,15 +75,11 @@ std::vector<std::shared_ptr<reserva>> DAOReserva::obteReservesUsuari(const std::
 
     std::vector<std::shared_ptr<reserva>> resultat;
 
-    // Definimos el tipo de query específico para reservas
     typedef odb::query<reserva> query;
     typedef odb::result<reserva> result;
 
     transaction t(_db->begin());
 
-    // CONSULTA CORREGIDA:
-    // 1. Usamos paréntesis ( ) para aislar la condición.
-    // 2. Usamos query::data (nombre real generado en reserva-odb.hxx).
     result r = _db->query<reserva>(
         (query::usuari->sobrenom == sobrenom) +
         " ORDER BY " + query::data + " DESC"

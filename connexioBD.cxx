@@ -1,4 +1,4 @@
-//connexioBD.cxx
+
 #include "connexioBD.hxx"
 #include <fstream>
 #include <sstream>
