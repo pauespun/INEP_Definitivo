@@ -1,21 +1,35 @@
-#include "CtrlReservaEscapada.hxx"
+ï»¿#include "CtrlReservaEscapada.hxx"
 #include "DAOEscapada.hxx"
+#include "DAOReserva.hxx"
 #include "PlanGo.hxx"
-#include "connexioBD.hxx"
-#include <odb/transaction.hxx>
+#include "reserva.hxx"
 #include <stdexcept>
+#include "Excepcions.hxx"      // âœ… Important
+#include <odb/exceptions.hxx>
 
-// Ya no necesitamos reserva-odb.hxx ni usuari-odb.hxx aquí, 
+// Ya no necesitamos reserva-odb.hxx ni usuari-odb.hxx aquÃ­, 
 // porque el controlador ya no hace persist/update directo.
-// Solo necesitamos acceso a BD para la transacción.
+// Solo necesitamos acceso a BD para la transacciÃ³n.
 
 CtrlReservaEscapada::CtrlReservaEscapada() {}
 
 DTOExperiencia CtrlReservaEscapada::consulta_escapada(const std::string& nom_escapada) {
     DAOEscapada dao;
-    _escapada_actual = dao.obte(nom_escapada);
+    try {
+        // Intentem recuperar l'escapada
+        _escapada_actual = dao.obte(nom_escapada);
+    }
+    catch (const odb::object_not_persistent&) {
+        // âœ… Si ODB diu que no existeix, llancem la nostra excepciÃ³ de domini
+        throw EscapadaNoExisteix();
+    }
+    catch (...) {
+        // Per qualsevol altre error inesperat
+        throw EscapadaNoExisteix();
+    }
 
-    DTOExperiencia dto(
+    // Retornem el DTO amb les dades
+    return DTOExperiencia(
         _escapada_actual->get_nom(),
         _escapada_actual->get_descripcio(),
         _escapada_actual->get_ciutat(),
@@ -23,30 +37,39 @@ DTOExperiencia CtrlReservaEscapada::consulta_escapada(const std::string& nom_esc
         _escapada_actual->get_preu(),
         _escapada_actual->get_hotel(),
         _escapada_actual->get_num_nits(),
-        0
+        0 // Durada Ã©s 0 per escapades
     );
-    return dto;
 }
 
-float CtrlReservaEscapada::reserva_escapada() {
-    using namespace odb::core;
+DTOReserva CtrlReservaEscapada::reserva_escapada() {
+    // 1. Validacions
+    if (!_escapada_actual) throw std::runtime_error("Escapada no seleccionada.");
 
-    // 1. OBTENER USUARIO
-    std::shared_ptr<usuari> u = PlanGo::getInstance().getUsuariLoggejat();
-    if (!u) throw std::runtime_error("Error: No hi ha cap usuari loguejat.");
+    auto u = PlanGo::getInstance().getUsuariLoggejat();
+    if (!u) throw std::runtime_error("Usuari no loguejat.");
 
-    // 2. OBTENER CONEXIÓN PARA TRANSACCIÓN
-    auto db = connexioBD::getInstance().getDB();
+    // 2. Comprovar disponibilitat (Opcional, segons lÃ²gica d'escapades)
+    DAOReserva daoRes;
+    // ... lÃ²gica de places si cal ...
 
-    // Iniciamos transacción aquí para que todo lo que haga el usuario sea atómico
-    transaction t(db->begin());
+    // 3. Calcular preu (si tÃ© lÃ²gica de descomptes, aplica-la aquÃ­)
+    float preu = _escapada_actual->get_preu();
 
-    // 3. DELEGACIÓN (Aquí está la clave del diagrama)
-    // El controlador dice: "Usuario, añádete esta reserva".
-    // Toda la lógica de precio, creación y persistencia ocurre dentro de 'afegirReserva'.
-    float preu_final = u->afegirReserva(_escapada_actual);
+    // Si l'usuari no tÃ© reserves prÃ¨vies, apliquem descompte (Exemple)
+    if (!daoRes.teAlgunaReserva(u->get_sobrenom())) {
+        float descompte = PlanGo::getInstance().get_descompte();
+        preu = preu * (1.0f - descompte);
+    }
 
-    t.commit();
+    // 4. Crear la reserva (AquÃ­ es genera la Data/Hora automÃ ticament al constructor)
+    // Assumim que una escapada reserva totes les places o 1 plaÃ§a per defecte segons el teu domini.
+    // AquÃ­ poso '1' plaÃ§a com a exemple estÃ ndard d'escapada, ajusta-ho si cal.
+    int placesReservades = _escapada_actual->get_maxim_places(); // O 1, segons com ho tinguis
 
-    return preu_final;
+    auto r = std::make_shared<reserva>(u, _escapada_actual, placesReservades, preu);
+
+    // 5. Guardar a la BD
+    daoRes.inserta(*r);
+
+    return r->obteInfo();
 }

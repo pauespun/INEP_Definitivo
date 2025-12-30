@@ -5,6 +5,7 @@
 #include <memory>
 #include "DTOExperiencia.hxx"
 #include "escapada.hxx"
+#include "DTOReserva.hxx"
 
 class CtrlReservaEscapada {
 public:
@@ -14,7 +15,7 @@ public:
     DTOExperiencia consulta_escapada(const std::string& nom_escapada);
 
     // Realiza la reserva usando la escapada guardada en memoria
-    float reserva_escapada();
+    DTOReserva reserva_escapada();
 
 private:
     // Guardamos la escapada consultada para usarla al reservar (Estado de sesión)

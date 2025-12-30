@@ -284,7 +284,6 @@ bool CapaDePresentacio::esborrarUsuari() {
 }
 
 
-
 void CapaDePresentacio::reservarEscapada() {
     using namespace std;
     string nomEscapada;
@@ -292,22 +291,16 @@ void CapaDePresentacio::reservarEscapada() {
 
     cout << "** Reservar escapada **" << endl;
 
-    // Limpiamos buffer si venimos de un menú numérico
-    // cin.ignore(); // Descomenta si el menú anterior usaba cin >> int
-
-    // 1. Pedir datos
     cout << "Nom: ";
-    // Usamos getline por si el nombre tiene espacios (Ej: "Escapada Paris")
     if (cin.peek() == '\n') cin.ignore();
     getline(cin, nomEscapada);
 
     CtrlReservaEscapada ctrl;
 
     try {
-        // 2. Llamada al Controlador: CONSULTA
         DTOExperiencia info = ctrl.consulta_escapada(nomEscapada);
 
-        // 3. Mostrar información
+        // Mostrar informació
         cout << "Descripcio: " << info.get_descripcio() << endl;
         cout << "Ciutat: " << info.get_ciutat() << endl;
         cout << "Places: " << info.get_maxim_places() << endl;
@@ -315,31 +308,34 @@ void CapaDePresentacio::reservarEscapada() {
         cout << "Nits: " << info.get_num_nits() << endl;
         cout << "Preu: " << info.get_preu() << endl;
 
-        // 4. Confirmación
         cout << "Vols continuar amb la reserva? (S/N): ";
         cin >> confirmacio;
 
         if (confirmacio == 'S' || confirmacio == 's') {
-            // 5. Llamada al Controlador: RESERVA
-            float preuPagat = ctrl.reserva_escapada();
+
+            // ✅ CANVI: Recollim el DTO en lloc del float
+            DTOReserva resultat = ctrl.reserva_escapada();
 
             cout << "Reserva enregistrada correctament." << endl;
-            cout << "Preu aplicat a la reserva: " << preuPagat << endl;
+
+            // ✅ AQUI MOSTREM LA DATA I HORA
+            cout << "Data i hora de la reserva: " << resultat.get_data() << endl;
+
+            cout << "Preu aplicat a la reserva: " << resultat.get_preuPagat() << endl;
         }
         else {
             cout << "Operacio cancel.lada." << endl;
         }
     }
     catch (EscapadaNoExisteix) {
-        cout << "L'escapada no existeix." << endl;
+        cout << "Error: L'escapada introduida no existeix." << endl;
     }
     catch (std::exception& e) {
         cout << "Error inesperat: " << e.what() << endl;
     }
 
     cout << "\nPrem Intro per continuar...";
-    cin.ignore();
-    cin.get();
+    cin.ignore(); cin.get();
 }
 
 
