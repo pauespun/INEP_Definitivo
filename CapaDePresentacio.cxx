@@ -117,21 +117,23 @@ void CapaDePresentacio::registrarUsuari() {
 // 3. TANCAR SESSIÓ (Implementación del caso de uso 3.1.2)
 // =========================================================
 
-void CapaDePresentacio::tancarSessio() {
+// En CapaDePresentacio.cxx
+bool CapaDePresentacio::tancarSessio() { // <--- Debe devolver bool
     char opcio;
-
-    // Escenari principal: El sistema pregunta
     cout << "Vols tancar la sessio? (S/N): ";
+
     cin >> opcio;
 
     if (opcio == 'S' || opcio == 's') {
-        // CORRECCIÓN: Instanciamos el controlador DIRECTAMENTE (sin CapaDeDomini)
+
         CtrlTancaSessio ctrl;
         ctrl.tancaSessio();
 
         cout << "Sessio tancada correctament!" << endl;
+        return true; // <--- Devuelve TRUE si cerró
     }
-    // Escenari alternatiu: 'N', no fem res.
+    // Si dice 'N' o cualquier otra cosa:
+    return false; // <--- Devuelve FALSE si NO cerró
 }
 
 // Funciones pendientes (Stubs) para que compile el menú

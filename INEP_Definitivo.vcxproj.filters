@@ -36,9 +36,6 @@
     <ClCompile Include="escapada.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="activitat.cxx">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="reserva.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="CtrlConsultaReserves.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="activitat.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

@@ -19,7 +19,7 @@ public:
     void registrarUsuari();
 
     // Tanca la sessió (neteja variables)
-    void tancarSessio();
+    bool tancarSessio();
 
     // Operacions sobre l'usuari loguejat
     void consultarUsuari();

@@ -1,15 +1,27 @@
 #include "CtrlConsultaUsuari.hxx"
 #include "PlanGo.hxx"
+#include "DAOReserva.hxx" 
 #include <stdexcept>
 
-DTOUsuari CtrlConsultaUsuari::consultaUsuari() {
-    // 1. Obtenemos el usuario de la sesión
-    auto usuari_ptr = PlanGo::getInstance().getUsuariLoggejat();
 
-    if (!usuari_ptr) {
+DTOUsuari CtrlConsultaUsuari::consultaUsuari() {
+    // 1. Obtenim l'usuari de la sessió (Singleton)
+    auto u = PlanGo::getInstance().getUsuariLoggejat();
+
+    if (!u) {
         throw std::runtime_error("Error: No hi ha cap usuari loggejat.");
     }
+    DAOReserva dao;
+    auto llistaReserves = dao.obteReservesUsuari(u->get_sobrenom());
+    int totalReserves = llistaReserves.size();
 
-    // 2. Delegamos en el usuario la creación de su propia info
-    return usuari_ptr->obteInfo();
+    // 3. Construïm el DTO manualment amb les dades correctes
+    // Així ens assegurem que el número és el real.
+    return DTOUsuari(
+        u->get_sobrenom(),
+        u->get_nom(),
+        u->get_correuElectronic(),
+        u->get_edat(),
+        totalReserves
+    );
 }
