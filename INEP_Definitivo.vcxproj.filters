@@ -30,9 +30,6 @@
     <ClCompile Include="CapaDePresentacio.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="CapaDeDomini.cxx">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="experiencia.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -138,9 +135,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="DAOUsuari.hxx">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="CapaDeDomini.hxx">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="PlanGo.hxx">

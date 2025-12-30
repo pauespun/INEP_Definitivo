@@ -149,7 +149,6 @@
   <ItemGroup>
     <ClCompile Include="activitat-odb.cxx" />
     <ClCompile Include="activitat.cxx" />
-    <ClCompile Include="CapaDeDomini.cxx" />
     <ClCompile Include="CapaDePresentacio.cxx" />
     <ClCompile Include="connexioBD.cxx" />
     <ClCompile Include="CtrlConsultaExperiencies.cxx" />
@@ -183,7 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="activitat.hxx" />
-    <ClInclude Include="CapaDeDomini.hxx" />
     <ClInclude Include="CapaDePresentacio.hxx" />
     <ClInclude Include="connexioBD.hxx" />
     <ClInclude Include="CtrlConsultaExperiencies.hxx" />

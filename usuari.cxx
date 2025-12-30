@@ -62,24 +62,28 @@ float usuari::afegirReserva(std::shared_ptr<experiencia> e) {
     return preu_final;
 }
 
-float usuari::calculaPreuReserva(
-    std::shared_ptr<experiencia> e,
-    int numPersones
-) const
+float usuari::calculaPreuReserva(std::shared_ptr<experiencia> e, int numPersones) const
 {
-    if (!e)
-        throw std::runtime_error("Experiencia nul·la");
+    if (!e) throw std::runtime_error("Experiencia nula");
+    if (numPersones < 1) throw std::invalid_argument("numPersones ha de ser >= 1");
 
-    if (numPersones < 1)
-        throw std::invalid_argument("numPersones ha de ser >= 1");
+    // Instanciamos el DAO (o lo pasamos por inyección si fuéramos muy puristas, 
+    // pero instanciarlo aquí es aceptable en este diseño).
+    DAOReserva dao;
 
-    // 🔥 ÚNICA comprobación de plazas
-    if (numPersones > e->get_maxim_places())
-        throw SuperaMaxim();
+    // 1. COMPROBAR CAPACIDAD (Usando el DAO)
+    int ocupades = dao.placesOcupades(e->get_nom());
 
-    // Primera reserva del usuario (según diagrama)
-    bool esPrimera = _reserves.empty();
+    if (ocupades + numPersones > e->get_maxim_places()) {
+        throw std::runtime_error("Error: No hi ha places suficients disponibles.");
+    }
 
+    // 2. COMPROBAR DESCUENTO (Usando el DAO)
+    // Si 'teAlgunaReserva' es true, NO es la primera reserva.
+    bool teReserves = dao.teAlgunaReserva(_sobrenom);
+    bool esPrimera = !teReserves; // Es primera si NO tiene reservas
+
+    // 3. CALCULAR
     return e->calculaPreu(numPersones, esPrimera);
 }
 

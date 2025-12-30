@@ -1,16 +1,25 @@
-#ifndef DAORESERVA_HXX
+﻿#ifndef DAORESERVA_HXX
 #define DAORESERVA_HXX
 
 #include <string>
 #include <memory>
-#include <odb/mysql/database.hxx>
+
+// Forward declarations necessàries
+namespace odb { namespace mysql { class database; } }
+class reserva; // IMPRESCINDIBLE per evitar l'error C2061
 
 class DAOReserva {
 public:
     DAOReserva();
 
-    // Devuelve true si el usuario (sobrenom) tiene AL MENOS una reserva
+    // Comprova si l'usuari té alguna reserva prèvia (per al descompte)
     bool teAlgunaReserva(const std::string& sobrenom);
+
+  
+    int placesOcupades(const std::string& nomExperiencia);
+
+    // Guarda una nova reserva
+    void inserta(reserva& r);
 
 private:
     std::shared_ptr<odb::mysql::database> _db;

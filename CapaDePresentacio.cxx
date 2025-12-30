@@ -338,6 +338,7 @@ void CapaDePresentacio::reservarEscapada() {
     cin.get();
 }
 
+
 void CapaDePresentacio::reservarActivitat() {
     using namespace std;
     string nomActivitat;
@@ -346,76 +347,82 @@ void CapaDePresentacio::reservarActivitat() {
 
     cout << "** Reservar activitat **" << endl;
 
-    cout << "Introdueix el nom de l'activitat a reservar: ";
     if (cin.peek() == '\n') cin.ignore();
+    cout << "Introdueix el nom de l'activitat a reservar: ";
     getline(cin, nomActivitat);
 
     CtrlReservaActivitat ctrl;
 
     try {
+        // Escenari alternatiu: Activitat no existeix (Capturat al final)
         DTOExperiencia info = ctrl.consulta_activitat(nomActivitat);
 
+        // Mostrar dades...
         cout << "Nom: " << info.get_nom() << endl;
-        cout << "Descripcio: " << info.get_descripcio() << endl;
+        cout << "Descripció: " << info.get_descripcio() << endl;
         cout << "Ciutat: " << info.get_ciutat() << endl;
-        cout << "Places: " << info.get_maxim_places() << endl;
-        cout << "Preu: " << info.get_preu() << endl;
+        cout << "Places màximes: " << info.get_maxim_places() << endl;
+        cout << "Preu per persona: " << info.get_preu() << "$" << endl;
         cout << "Durada (minuts): " << info.get_durada() << endl;
 
         float preuTotal = 0.0f;
+        bool valid = false;
 
-        // ✅ Pedir numPersones hasta que ctrl.preu_total lo acepte
-        while (true) {
-            cout << "Introdueix el nombre de persones que volen realitzar l'activitat: ";
+        // Escenari alternatiu: Supera màxim (Bucle de reintent)
+        while (!valid) {
+            cout << "Introdueix el nombre de persones: ";
             cin >> numPersones;
 
             if (numPersones < 1) {
-                cout << "Error: el nombre de persones ha de ser com a minim 1." << endl;
+                cout << "Error: Minim 1 persona." << endl;
                 continue;
             }
 
             try {
-                preuTotal = ctrl.preu_total(numPersones); // ✅ aquí valida plazas reales
-                break; // ok
+                preuTotal = ctrl.preu_total(numPersones);
+                valid = true;
             }
             catch (SuperaMaxim) {
-                cout << "Error: No hi ha places suficients disponibles." << endl;
+                int lliures = ctrl.places_disponibles();
+
+                cout << "Error: El nombre de persones supera les places disponibles." << endl;
+
+                // Mostrem la realitat: "Queden 2 places", no "Màxim 10".
+                cout << "Places lliures actualment: " << lliures << endl;
+
                 cout << "Vols introduir un altre nombre? (S/N): ";
                 cin >> confirmacio;
 
                 if (confirmacio == 'N' || confirmacio == 'n') {
-                    cout << "Operacio cancel·lada." << endl;
-                    cout << "\nPrem Intro per continuar...";
+                    cout << "Operacio cancel.lada." << endl;
                     cin.ignore(); cin.get();
                     return;
                 }
             }
         }
 
-        cout << "Preu total de la reserva: " << preuTotal << endl;
-
-        cout << "Vols continuar amb la reserva? (S/N): ";
+        cout << "Preu total: " << preuTotal << endl;
+        cout << "Vols continuar? (S/N): ";
         cin >> confirmacio;
 
         if (confirmacio == 'S' || confirmacio == 's') {
-            float preuPagat = ctrl.reserva_activitat(numPersones);
+            ctrl.reserva_activitat(numPersones);
             cout << "Reserva enregistrada correctament." << endl;
-            cout << "Preu aplicat a la reserva: " << preuPagat << endl;
         }
         else {
-            cout << "Operacio cancel·lada." << endl;
+            cout << "Operacio cancel.lada." << endl;
         }
+
     }
     catch (ActivitatNoExisteix) {
-        cout << "L'activitat no existeix." << endl;
+        cout << "L'activitat no existeix." << endl; // Missatge d'error i finalitza
     }
     catch (std::exception& e) {
-        cout << "Error inesperat: " << e.what() << endl;
+        cout << "Error: " << e.what() << endl;
     }
 
     cout << "\nPrem Intro per continuar...";
-    cin.ignore();
-    cin.get();
+    cin.ignore(); cin.get();
 }
 
 

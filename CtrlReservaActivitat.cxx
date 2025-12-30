@@ -1,76 +1,102 @@
 ﻿#include "CtrlReservaActivitat.hxx"
 #include "DAOActivitat.hxx"
+#include "DAOReserva.hxx" 
 #include "PlanGo.hxx"
-#include "connexioBD.hxx"
-#include <odb/transaction.hxx>
+#include "Excepcions.hxx"
 #include <stdexcept>
+#include "reserva.hxx"
+// NO incloem connexioBD ni ODB aquí. Prohibit.
 
 CtrlReservaActivitat::CtrlReservaActivitat() {}
 
 DTOExperiencia CtrlReservaActivitat::consulta_activitat(const std::string& nom_activitat) {
     DAOActivitat dao;
-    _activitat_actual = dao.obte(nom_activitat);
+    try {
+        // El DAO gestiona la connexió internament
+        _activitat_actual = dao.obte(nom_activitat);
+    }
+    catch (...) {
+        // Si el DAO falla (ex: object_not_persistent), llancem la nostra excepció de domini
+        throw ActivitatNoExisteix();
+    }
 
-    DTOExperiencia dto(
+    return DTOExperiencia(
         _activitat_actual->get_nom(),
         _activitat_actual->get_descripcio(),
         _activitat_actual->get_ciutat(),
         _activitat_actual->get_maxim_places(),
         _activitat_actual->get_preu(),
-        "",      // hotel (no aplica)
-        0,       // nits (no aplica)
-        _activitat_actual->get_durada() // durada en minuts
+        "", 0,
+        _activitat_actual->get_durada()
     );
-
-    return dto;
 }
-
-/*float CtrlReservaActivitat::preu_total(int numPersones) const {
-    if (!_activitat_actual)
-        throw std::runtime_error("Error: No hi ha cap activitat consultada.");
-
-    if (numPersones < 1)
-        throw std::invalid_argument("Error: El nombre de persones ha de ser >= 1.");
-
-    if (numPersones > _activitat_actual->get_maxim_places())
-        throw std::invalid_argument("Error: El nombre de persones supera el maxim.");
-
-    // Preu per persona * num persones
-    return _activitat_actual->get_preu() * numPersones;
-}*/
 
 float CtrlReservaActivitat::preu_total(int numPersones) const {
-    if (!_activitat_actual)
-        throw std::runtime_error("Error: No hi ha cap activitat consultada.");
+    if (!_activitat_actual) throw std::runtime_error("Activitat no seleccionada.");
+    if (numPersones < 1) throw std::invalid_argument("Mínim 1 persona.");
+
+    // Validació de negoci (Escenari Alternatiu)
+    if (numPersones > _activitat_actual->get_maxim_places()) {
+        throw SuperaMaxim();
+    }
 
     auto u = PlanGo::getInstance().getUsuariLoggejat();
-    if (!u) throw std::runtime_error("Usuari no loguejat");
+    if (!u) throw std::runtime_error("Usuari no loguejat.");
 
-    return u->calculaPreuReserva(_activitat_actual, numPersones);
+    // Deleguem la consulta de BD al DAO
+    DAOReserva daoReserva;
+
+    // 1. Validar AFORO REAL (Opcional, si lo pide el requisito)
+    int ocupadas = daoReserva.placesOcupades(_activitat_actual->get_nom());
+    if (ocupadas + numPersones > _activitat_actual->get_maxim_places()) {
+        throw SuperaMaxim(); // O una excepción especifica "ActivitatPlena"
+    }
+
+    bool teReserves = daoReserva.teAlgunaReserva(u->get_sobrenom());
+
+    float preu = _activitat_actual->get_preu() * numPersones;
+
+    // Aplicar descompte (Lògica de negoci pura)
+    if (!teReserves) {
+        float descompte = PlanGo::getInstance().get_descompte();
+        preu = preu * (1.0f - descompte);
+    }
+
+    return preu;
 }
 
-
-
-
 float CtrlReservaActivitat::reserva_activitat(int numPersones) {
-    using namespace odb::core;
+    // 1. Validacions
+    if (!_activitat_actual) throw std::runtime_error("Activitat no seleccionada.");
+    if (numPersones > _activitat_actual->get_maxim_places()) throw SuperaMaxim();
 
-    if (!_activitat_actual)
-        throw std::runtime_error("Error: No hi ha cap activitat consultada.");
+    auto u = PlanGo::getInstance().getUsuariLoggejat();
 
-    if (numPersones < 1)
-        throw std::invalid_argument("Error: El nombre de persones ha de ser >= 1.");
+    // 2. Càlcul del preu final (reutilitzem la lògica neta)
+    float preuFinal = preu_total(numPersones);
 
-    std::shared_ptr<usuari> u = PlanGo::getInstance().getUsuariLoggejat();
-    if (!u) throw std::runtime_error("Error: No hi ha cap usuari loguejat.");
+    // 3. Creació de l'objecte de Domini (en memòria)
+    // Utilitzem make_shared per crear l'objecte que espera ODB, però sense tocar DB encara
+    auto r = std::make_shared<reserva>(u, _activitat_actual, numPersones, preuFinal);
 
-    auto db = connexioBD::getInstance().getDB();
-    transaction t(db->begin());
+    // 4. Persistència via DAO
+    DAOReserva daoReserva;
+    daoReserva.inserta(*r); // AQUI és on s'obre la connexió i la transacció, dins del DAO.
 
-    // ⚠️ esto solo funcionará si tienes la sobrecarga en usuari:
-    float preu_final = u->afegirReserva(_activitat_actual, numPersones);
+    return preuFinal;
+}
 
-    t.commit();
-    return preu_final;
+int CtrlReservaActivitat::places_disponibles() {
+    if (!_activitat_actual) return 0;
+
+    DAOReserva dao;
+    // 1. Preguntem quantes places estan ocupades realment
+    int ocupades = dao.placesOcupades(_activitat_actual->get_nom());
+
+    // 2. Calculem la diferència
+    int lliures = _activitat_actual->get_maxim_places() - ocupades;
+
+    // 3. Per seguretat, que no retorni negatius
+    return (lliures < 0) ? 0 : lliures;
 }
 

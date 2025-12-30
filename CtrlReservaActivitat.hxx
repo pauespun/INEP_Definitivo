@@ -16,6 +16,8 @@ public:
     // Realiza la reserva usando la activitat guardada en memoria y el nº de personas
     float reserva_activitat(int numPersones);
 
+    int places_disponibles();
+
 private:
     // Guardamos la activitat consultada para usarla al reservar (Estado de sesión)
     std::shared_ptr<activitat> _activitat_actual;
