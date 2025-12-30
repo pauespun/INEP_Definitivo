@@ -60,7 +60,7 @@ void menu_inici()
             presentacio.registrarUsuari();
             break;
         case 3:
-            presentacio.consultarExperiencies();
+			menu_consultes();
             break;
         case 0:
             cout << "Adeu!\n";
@@ -242,12 +242,10 @@ void menu_consultes()
             presentacio.consultarExperiencies();
             break;
 		case 2:
-			// Aquí iría el método para consultar novedades
-			//presentacio.consultarNovetats();
+			presentacio.consultarNovetats();
 			break;
 		case 3:
-			// Aquí iría el método para consultar las más reservadas
-			//presentacio.consultarMesReservades();
+			presentacio.consultarMesReservades();
 			break;
         case 0:
             tornar = true;

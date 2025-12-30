@@ -567,6 +567,12 @@ void CapaDePresentacio::consultarNovetats()
         }
 
         for (const auto& e : novetats) {
+            if (!e.get_hotel().empty()) {
+                cout << "Tipus: ESCAPADA" << endl;
+            }
+			else {
+				cout << "Tipus: ACTIVITAT" << endl;
+			}
             cout << "Nom: " << e.get_nom() << endl;
             cout << "Descripcio: " << e.get_descripcio() << endl;
             cout << "Ciutat: " << e.get_ciutat() << endl;
@@ -574,12 +580,12 @@ void CapaDePresentacio::consultarNovetats()
             cout << "Preu: " << e.get_preu() << endl;
 
             if (!e.get_hotel().empty()) {
-                cout << "Tipus: ESCAPADA" << endl;
+              
                 cout << "Hotel: " << e.get_hotel() << endl;
                 cout << "Nits: " << e.get_num_nits() << endl;
             }
             else {
-                cout << "Tipus: ACTIVITAT" << endl;
+           
                 cout << "Durada: " << e.get_durada() << endl;
             }
 
@@ -599,37 +605,54 @@ void CapaDePresentacio::consultarMesReservades()
 {
     using namespace std;
 
-    cout << "** Consultar experiències més reservades **" << endl;
+    cout << "Consultar experiències més reservades" << endl;
 
     try {
         CtrlConsultaMesReservades ctrl;
 
+        // Recuperem les llistes
         auto escapades = ctrl.consulta_escapades(5);
         auto activitats = ctrl.consulta_activitats(5);
 
+        // --- ESCAPADES ---
         cout << "\n--- Escapades més reservades ---" << endl;
         if (escapades.empty())
             cout << "No hi ha escapades." << endl;
 
+        int i = 1;
         for (const auto& e : escapades) {
-            cout << "Nom: " << e.get_nom() << endl;
-            cout << "Ciutat: " << e.get_ciutat() << endl;
-            cout << "Preu: " << e.get_preu() << endl;
-            cout << "Hotel: " << e.get_hotel() << endl;
-            cout << "Nits: " << e.get_num_nits() << endl;
+            cout << i << ". Nom: " << e.get_nom() << endl;
+           
+            cout << "   Descripcio: " << e.get_descripcio() << endl;
+            cout << "   Ciutat: " << e.get_ciutat() << endl;
+            cout << "   Places: " << e.get_maxim_places() << endl;
+            cout << "   Preu: " << e.get_preu() << endl;
+
+            // Específic d'Escapada
+            cout << "   Hotel: " << e.get_hotel() << endl;
+            cout << "   Nits: " << e.get_num_nits() << endl;
             cout << "-------------------------" << endl;
+            i++;
         }
 
+        // --- ACTIVITATS ---
         cout << "\n--- Activitats més reservades ---" << endl;
         if (activitats.empty())
             cout << "No hi ha activitats." << endl;
 
+        i = 1;
         for (const auto& a : activitats) {
-            cout << "Nom: " << a.get_nom() << endl;
-            cout << "Ciutat: " << a.get_ciutat() << endl;
-            cout << "Preu: " << a.get_preu() << endl;
-            cout << "Durada: " << a.get_durada() << endl;
+            cout << i << ". Nom: " << a.get_nom() << endl;
+        
+            cout << "   Descripcio: " << a.get_descripcio() << endl;
+            cout << "   Ciutat: " << a.get_ciutat() << endl;
+            cout << "   Places: " << a.get_maxim_places() << endl;
+            cout << "   Preu: " << a.get_preu() << endl;
+
+            // Específic d'Activitat
+            cout << "   Durada: " << a.get_durada() << " minuts" << endl;
             cout << "-------------------------" << endl;
+            i++;
         }
     }
     catch (exception& e) {
