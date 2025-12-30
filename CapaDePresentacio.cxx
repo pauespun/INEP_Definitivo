@@ -8,6 +8,8 @@
 #include "CtrlReservaEscapada.hxx"
 #include "CtrlReservaActivitat.hxx"
 #include "CtrlConsultaExperiencies.hxx"
+#include "CtrlConsultaReserves.hxx"
+#include "DTOReserves.hxx"
 
 #include "PlanGo.hxx" 
 #include <iostream>
@@ -486,4 +488,87 @@ void CapaDePresentacio::consultarExperiencies() {
     cout << "\nPrem Intro per continuar...";
     cin.ignore();
     cin.get();
+}
+// Substitueix el teu mètode visualitzarReserves per aquest:
+
+void CapaDePresentacio::visualitzarReserves() {
+    using namespace std;
+    cout << "\n--- LES MEVES RESERVES ---" << endl;
+
+    try {
+        CtrlConsultaReserves ctrl;
+        DTOReserves dades = ctrl.consultaReserves();
+
+        auto llistaCompleta = dades.get_llista();
+
+        // Escenari alternatiu: Usuari no té reserves
+        if (llistaCompleta.empty()) {
+            cout << "No tens cap reserva registrada." << endl;
+            cout << "\nPrem Intro per continuar...";
+            cin.ignore(); cin.get();
+            return;
+        }
+
+        // Mostrem el total global
+        cout << "Total pagat acumulat: " << dades.get_totalPagat() << " EUR" << endl;
+
+        // 1. SEPAREM LA LLISTA EN DOS GRUPS
+        // Com que 'llistaCompleta' ja ve ordenada per data (del DAO),
+        // al separar-la mantenim l'ordre cronològic dins de cada grup.
+        vector<DTOReserva> llistaActivitats;
+        vector<DTOReserva> llistaEscapades;
+
+        for (const auto& r : llistaCompleta) {
+            DTOExperiencia exp = r.get_experiencia();
+            // Si té "nits", és una Escapada. Si no, és una Activitat.
+            if (exp.get_num_nits() > 0) {
+                llistaEscapades.push_back(r);
+            }
+            else {
+                llistaActivitats.push_back(r);
+            }
+        }
+
+        // Funció auxiliar lambda per no repetir codi d'impressió
+        auto imprimirReserva = [](const DTOReserva& r) {
+            DTOExperiencia exp = r.get_experiencia();
+            cout << "Data Reserva: " << r.get_data() << endl;
+            cout << "Experiencia:  " << exp.get_nom() << " (" << exp.get_ciutat() << ")" << endl;
+            cout << "Descripcio:   " << exp.get_descripcio() << endl;
+            cout << "Places:       " << r.get_numPlaces() << endl;
+            cout << "Preu Pagat:   " << r.get_preuPagat() << " EUR" << endl;
+
+            if (exp.get_num_nits() > 0) { // Escapada
+                cout << "Hotel:        " << exp.get_hotel() << endl;
+                cout << "Nits:         " << exp.get_num_nits() << endl;
+            }
+            else { // Activitat
+                cout << "Durada:       " << exp.get_durada() << " minuts" << endl;
+            }
+            cout << "------------------------------------------------" << endl;
+            };
+
+        // 2. MOSTREM LA PART D'ACTIVITATS
+        if (!llistaActivitats.empty()) {
+            cout << "\n=== RESERVES D'ACTIVITATS ===" << endl;
+            for (const auto& r : llistaActivitats) {
+                imprimirReserva(r);
+            }
+        }
+
+        // 3. MOSTREM LA PART D'ESCAPADES
+        if (!llistaEscapades.empty()) {
+            cout << "\n=== RESERVES D'ESCAPADES ===" << endl;
+            for (const auto& r : llistaEscapades) {
+                imprimirReserva(r);
+            }
+        }
+
+    }
+    catch (std::exception& e) {
+        cout << "Error al consultar reserves: " << e.what() << endl;
+    }
+
+    cout << "\nPrem Intro per continuar...";
+    cin.ignore(); cin.get();
 }

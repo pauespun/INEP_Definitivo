@@ -3,6 +3,7 @@
 
 #include <string>
 #include <odb/core.hxx>
+#include "DTOExperiencia.hxx"
 
 #pragma db object polymorphic pointer(std::shared_ptr) table("experiencia")
 class experiencia {
@@ -32,6 +33,12 @@ public:
 
     // 2) Concreto: aplica descuento si es primera reserva
     float calculaPreu(int nPersones, bool primeraRes) const;
+
+    DTOExperiencia obteInfo() const;
+
+protected:
+    // Operació primitiva abstracta que implementaran les subclasses
+    virtual void ompleDetalls(DTOExperiencia& dto) const = 0;
 
 protected:
     friend class odb::access;

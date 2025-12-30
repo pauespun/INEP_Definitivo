@@ -23,3 +23,10 @@ float DTOExperiencia::get_preu() const { return _preu; }
 std::string DTOExperiencia::get_hotel() const { return _hotel; }
 int DTOExperiencia::get_num_nits() const { return _num_nits; }
 int DTOExperiencia::get_durada() const { return _durada; }
+
+//set_hotel
+void DTOExperiencia::set_hotel(const std::string& hotel) { _hotel = hotel; }
+//set_num_nits
+void DTOExperiencia::set_num_nits(int nits) { _num_nits = nits; }
+//set_durada
+void DTOExperiencia::set_durada(int durada) { _durada = durada; }

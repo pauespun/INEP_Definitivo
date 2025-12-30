@@ -22,6 +22,8 @@ public:
 
     float calculaPreu(int /*nPersones*/) const override;
 
+    void ompleDetalls(DTOExperiencia& dto) const override;
+
 private:
     friend class odb::access;
     escapada();

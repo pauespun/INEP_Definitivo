@@ -46,3 +46,8 @@ float escapada::calculaPreu(int /*nPersones*/) const
     // según el diagrama: devuelve _preu (precio fijo)
     return _preu;
 }
+
+void escapada::ompleDetalls(DTOExperiencia& dto) const {
+    dto.set_hotel(get_hotel());
+    dto.set_num_nits(get_num_nits());
+}

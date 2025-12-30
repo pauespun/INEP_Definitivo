@@ -3,7 +3,7 @@
 
 #include <string>
 #include <memory>
-
+#include <vector>
 // Forward declarations necessàries
 namespace odb { namespace mysql { class database; } }
 class reserva; // IMPRESCINDIBLE per evitar l'error C2061
@@ -20,6 +20,10 @@ public:
 
     // Guarda una nova reserva
     void inserta(reserva& r);
+
+
+    // Retorna totes les reserves d'un usuari ordenades per data descendent
+    std::vector<std::shared_ptr<reserva>> obteReservesUsuari(const std::string& sobrenom);
 
 private:
     std::shared_ptr<odb::mysql::database> _db;

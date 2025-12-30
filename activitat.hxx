@@ -18,6 +18,8 @@ public:
 
     float calculaPreu(int nPersones) const override;
 
+    void ompleDetalls(DTOExperiencia& dto) const;
+
 private:
     friend class odb::access;
     activitat();

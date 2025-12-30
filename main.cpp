@@ -182,9 +182,7 @@ void menu_gestio_reserves()
             presentacio.reservarActivitat(); // ✅ AÑADIDO
             break;
         case 3:
-            // Si todavía no lo has implementado, deja esto comentado o quítalo
-            // presentacio.visualitzarReserves();
-            cout << "Funcionalitat encara no implementada.\n";
+            presentacio.visualitzarReserves(); // Descomenta-ho!
             break;
         case 0:
             tornar = true;

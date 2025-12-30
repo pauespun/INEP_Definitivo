@@ -20,6 +20,12 @@ public:
     int get_num_nits() const;
     int get_durada() const;
 
+    void set_hotel(const std::string& hotel);
+
+    void set_num_nits(int nits);
+
+    void set_durada(int durada);
+
 private:
     std::string _nom;
     std::string _descripcio;

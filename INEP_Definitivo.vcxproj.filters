@@ -102,6 +102,15 @@
     <ClCompile Include="CtrlConsultaExperiencies.cxx">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="DTOReserva.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="DTOReserves.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlConsultaReserves.cxx">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="usuari.hxx">
@@ -180,6 +189,15 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="CtrlConsultaExperiencies.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="DTOReserva.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="DTOReserves.hxx">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="CtrlConsultaReserves.hxx">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

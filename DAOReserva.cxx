@@ -72,3 +72,30 @@ void DAOReserva::inserta(reserva& r) {
         t.commit();
     }
 }
+
+std::vector<std::shared_ptr<reserva>> DAOReserva::obteReservesUsuari(const std::string& sobrenom) {
+    using odb::core::transaction;
+
+    std::vector<std::shared_ptr<reserva>> resultat;
+
+    // Definimos el tipo de query específico para reservas
+    typedef odb::query<reserva> query;
+    typedef odb::result<reserva> result;
+
+    transaction t(_db->begin());
+
+    // CONSULTA CORREGIDA:
+    // 1. Usamos paréntesis ( ) para aislar la condición.
+    // 2. Usamos query::data (nombre real generado en reserva-odb.hxx).
+    result r = _db->query<reserva>(
+        (query::usuari->sobrenom == sobrenom) +
+        " ORDER BY " + query::data + " DESC"
+    );
+
+    for (auto& res : r) {
+        resultat.push_back(std::make_shared<reserva>(res));
+    }
+
+    t.commit();
+    return resultat;
+}

@@ -43,7 +43,9 @@ connexioBD& connexioBD::getInstance()
 {
 	static connexioBD instance;
 	return instance;
-}// Constructor privat que llegeix les variables d'entorn i crea la connexió a la base de dades
+}
+
+// Constructor privat que llegeix les variables d'entorn i crea la connexió a la base de dades
 connexioBD::connexioBD()
 {
 	// Carreguem les variables d'entorn des del fitxer configuracio.env
@@ -58,4 +60,4 @@ connexioBD::connexioBD()
 		throw runtime_error("Falten variables de configuració a .env");
 	// Creem la connexió a la base de dades MySQL
 	_db = make_shared<odb::mysql::database>(user, pass, name, host);
-}
+}

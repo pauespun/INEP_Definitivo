@@ -36,3 +36,6 @@ float activitat::calculaPreu(int nPersones) const
 
     return _preu * nPersones;
 }
+void activitat::ompleDetalls(DTOExperiencia& dto) const {
+    dto.set_durada(get_durada());
+}

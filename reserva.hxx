@@ -7,6 +7,7 @@
 
 #include "usuari.hxx"     
 #include "experiencia.hxx"  
+#include "DTOReserva.hxx"
 
 class usuari;
 class experiencia;
@@ -31,6 +32,7 @@ public:
     // Normalmente no cambiamos ID, usuario o experiencia de una reserva ya creada, 
     // pero puedes añadirlos si los necesitas.
 
+    DTOReserva obteInfo();
 private:
     friend class odb::access;
     reserva();

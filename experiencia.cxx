@@ -75,3 +75,25 @@ float experiencia::calculaPreu(int nPersones, bool primeraRes) const {
     }
     return preu;
 }
+
+DTOExperiencia experiencia::obteInfo() const {
+    // 1. Omplim la part comú
+    // Nota: El constructor de DTOExperiencia espera tots els paràmetres. 
+    // Els passarem buits/0 i deixarem que ompleDetalls els posi correctament o farem servir setters.
+    // Assumirem que DTOExperiencia té setters o un constructor flexible.
+    // Si el teu DTOExperiencia actual no té setters, caldrà afegir-los o crear el DTO amb valors per defecte.
+
+    DTOExperiencia dto(
+        get_nom(),
+        get_descripcio(),
+        get_ciutat(),
+        get_maxim_places(),
+        get_preu(),
+        "", 0, 0 // Valors buits per Hotel, Nits, Durada
+    );
+
+    // 2. Cridem a la subclasse per omplir els detalls específics
+    ompleDetalls(dto);
+
+    return dto;
+}

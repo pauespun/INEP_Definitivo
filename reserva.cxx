@@ -14,6 +14,20 @@ std::string obtener_fecha_actual_reserva() {
     return std::string(buf);
 }
 
+#include "reserva.hxx"
+#include <boost/date_time/posix_time/posix_time.hpp> 
+
+DTOReserva reserva::obteInfo() {
+    // 1. Obtenim info de l'experiència (delegació)
+    DTOExperiencia infoExp = _experiencia->obteInfo();
+
+    // 2. Convertim la data a string (format simple YYYY-MM-DD HH:MM:SS)
+	std::string dataStr = _data;
+
+    // 3. Creem i retornem el DTO
+    return DTOReserva(dataStr, _num_places, _preu_pagat, infoExp);
+}
+
 reserva::reserva() {
 }
 
